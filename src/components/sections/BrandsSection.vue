@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { IconTool } from '@tabler/icons-vue'
 import { MARCAS } from '@/data/marcas'
 import { LEGAL } from '@/data/config'
 import UiSection from '@/components/ui/UiSection.vue'
@@ -10,40 +9,57 @@ const marcaPrincipal = MARCAS[0]?.nombre ?? 'las principales marcas'
 </script>
 
 <template>
-  <UiSection id="marcas" class="bg-ink-50/50 dark:bg-ink-900/40">
+  <UiSection id="marcas" class="bg-paper-mute dark:bg-ink-950">
     <SectionHeading
       :title="`Servicio especializado en ${marcaPrincipal} y más`"
       intro="No somos centro de servicio oficial de ninguna marca: ofrecemos reparación especializada con refacciones originales o equivalentes compatibles, lo que permite costos más accesibles."
     />
 
-    <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <li
-        v-for="(marca, i) in MARCAS"
-        :key="marca.id"
-        v-reveal="{ delay: (i % 4) * 90 }"
-        class="group flex flex-col rounded-2xl bg-white p-6 ring-1 ring-ink-200/60 transition-all hover:-translate-y-0.5 hover:shadow-card hover:ring-brand-200 dark:bg-ink-900 dark:ring-ink-800"
+    <!-- Cinta de marcas en movimiento perpetuo (se pausa al pasar el cursor) -->
+    <div
+      v-reveal
+      class="relative mt-12 overflow-hidden"
+      role="list"
+      aria-label="Marcas que atendemos"
+    >
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-paper-mute to-transparent sm:w-28 dark:from-ink-950"
+      />
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-paper-mute to-transparent sm:w-28 dark:from-ink-950"
+      />
+
+      <ul
+        class="animate-marquee group flex w-max items-center gap-4 hover:[animation-play-state:paused]"
+        aria-hidden="true"
       >
-        <div
-          class="grid h-20 shrink-0 place-items-center rounded-xl bg-white ring-1 ring-inset ring-ink-100 transition-all duration-200 group-hover:ring-brand-300 dark:ring-ink-800"
-          aria-hidden="true"
-        >
-          <img
-            v-if="marca.logo"
-            :src="marca.logo"
-            alt=""
-            class="h-14 w-auto max-w-[10rem] object-contain grayscale transition-all duration-200 group-hover:grayscale-0"
-            loading="lazy"
-          />
-          <BrandLogo v-else :marca="marca" class="h-11 w-auto max-w-[11rem]" />
-        </div>
-        <h3 class="mt-5 text-lg font-bold tracking-tight text-ink-950 dark:text-white">
-          {{ marca.nombre }}
-        </h3>
-        <p class="mt-1.5 flex items-start gap-1.5 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
-          <IconTool aria-hidden="true" class="mt-0.5 size-4 shrink-0" :style="{ color: marca.color }" />
-          {{ marca.descripcion }}
-        </p>
-      </li>
+        <li v-for="n in 2" :key="n" class="flex items-center gap-4">
+          <template v-for="m in MARCAS" :key="`${n}-${m.id}`">
+            <div
+              class="flex h-20 items-center justify-center rounded-2xl border border-ink-200/60 bg-white px-7 shadow-sm transition-colors group-hover:border-brand-200 dark:border-ink-800 dark:bg-ink-900 dark:group-hover:border-brand-600/60"
+            >
+              <img
+                v-if="m.logo"
+                :src="m.logo"
+                alt=""
+                class="h-12 w-auto max-w-[8.5rem] object-contain opacity-80 grayscale transition-all duration-200 group-hover:opacity-100 group-hover:grayscale-0"
+                loading="lazy"
+              />
+              <BrandLogo v-else :marca="m" class="h-10 w-auto max-w-[9rem]" />
+            </div>
+            <span aria-hidden="true" class="hidden text-xl font-bold text-ink-300 sm:block lg:text-2xl dark:text-ink-700">
+              ·
+            </span>
+          </template>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Nombres para lectores de pantalla (la cinta es decorativa) -->
+    <ul class="sr-only">
+      <li v-for="m in MARCAS" :key="m.id">{{ m.nombre }}</li>
     </ul>
 
     <p class="mt-10 max-w-3xl text-xs leading-relaxed text-ink-600 dark:text-ink-400">

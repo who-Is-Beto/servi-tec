@@ -17,7 +17,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
         v-for="(t, i) in TESTIMONIOS"
         :key="i"
         v-reveal="{ delay: i * 110 }"
-        class="relative flex flex-col justify-between overflow-hidden rounded-2xl p-7 transition-transform duration-200 hover:-translate-y-1"
+        class="group relative flex flex-col justify-between overflow-hidden rounded-2xl p-7 transition-transform duration-200 hover:-translate-y-1"
         :class="[
           i % 2 === 0
             ? 'bg-ink-950 text-white shadow-card-hover ring-1 ring-ink-800'
@@ -25,6 +25,10 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
           i === 1 && 'md:mt-10',
         ]"
       >
+        <span
+          aria-hidden="true"
+          class="absolute inset-x-7 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/70 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+        />
         <span
           aria-hidden="true"
           class="pointer-events-none absolute -right-3 -top-8 select-none font-serif text-[7rem] leading-none"

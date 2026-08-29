@@ -68,6 +68,40 @@ export default {
       maxWidth: {
         page: '80rem',
       },
+      keyframes: {
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-50%)' },
+        },
+        floaty: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-9px)' },
+        },
+        drift: {
+          '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
+          '50%': { transform: 'translate3d(2.5rem, -2rem, 0) scale(1.08)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '200% 50%' },
+        },
+        'pulse-soft': {
+          '0%, 100%': { opacity: '0.5' },
+          '50%': { opacity: '1' },
+        },
+        'ring-pop': {
+          '0%': { transform: 'scale(0.75)', opacity: '0.7' },
+          '100%': { transform: 'scale(2)', opacity: '0' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 32s linear infinite',
+        floaty: 'floaty 7s ease-in-out infinite',
+        drift: 'drift 20s ease-in-out infinite',
+        shimmer: 'shimmer 5s linear infinite',
+        'pulse-soft': 'pulse-soft 3.4s ease-in-out infinite',
+        'ring-pop': 'ring-pop 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite',
+      },
     },
   },
   plugins: [],

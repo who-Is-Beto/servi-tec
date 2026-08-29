@@ -61,8 +61,12 @@ function fontSize(z: (typeof CDMX_MAPA)[number]): string {
       <!-- Mapa real -->
       <div
         v-reveal="{ from: 'left' }"
-        class="rounded-3xl bg-white p-4 shadow-card ring-1 ring-ink-200/60 sm:p-6 dark:bg-ink-900 dark:ring-ink-800"
+        class="relative overflow-hidden rounded-3xl bg-white p-4 shadow-card ring-1 ring-ink-200/60 sm:p-6 dark:bg-ink-900 dark:ring-ink-800"
       >
+        <span
+          aria-hidden="true"
+          class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/70 to-transparent"
+        />
         <svg
           :viewBox="MAPA_META.viewBox.join(' ')"
           class="h-auto w-full select-none"
@@ -163,17 +167,17 @@ function fontSize(z: (typeof CDMX_MAPA)[number]): string {
         </svg>
 
         <!-- Leyenda -->
-        <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-ink-600 dark:text-ink-300">
-          <span class="inline-flex items-center gap-1.5">
-            <span class="size-3 rounded-sm bg-brand-500" aria-hidden="true" />
+        <div class="mt-4 flex flex-wrap items-center gap-2 text-xs font-medium text-ink-600 dark:text-ink-300">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 ring-1 ring-inset ring-ink-200/70 dark:bg-ink-950/40 dark:ring-ink-700">
+            <span class="size-2.5 rounded-full bg-brand-500" aria-hidden="true" />
             CDMX
           </span>
-          <span class="inline-flex items-center gap-1.5">
-            <span class="size-3 rounded-sm bg-ink-400" aria-hidden="true" />
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 ring-1 ring-inset ring-ink-200/70 dark:bg-ink-950/40 dark:ring-ink-700">
+            <span class="size-2.5 rounded-full bg-ink-400" aria-hidden="true" />
             Estado de México
           </span>
-          <span class="inline-flex items-center gap-1.5">
-            <IconInfoCircle aria-hidden="true" class="size-3.5" />
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 ring-1 ring-inset ring-ink-200/70 dark:bg-ink-950/40 dark:ring-ink-700">
+            <IconInfoCircle aria-hidden="true" class="size-3.5 text-brand-600" />
             Límites oficiales (INEGI/CONABIO) simplificados.
           </span>
         </div>
@@ -182,15 +186,23 @@ function fontSize(z: (typeof CDMX_MAPA)[number]): string {
       <!-- Panel de zona seleccionada -->
       <section
         v-reveal="{ from: 'right' }"
-        class="rounded-2xl bg-white p-6 shadow-card ring-1 ring-ink-200/60 dark:bg-ink-900 dark:ring-ink-800"
+        class="relative overflow-hidden rounded-3xl bg-white p-6 shadow-card ring-1 ring-ink-200/60 dark:bg-ink-900 dark:ring-ink-800"
         aria-live="polite"
         data-testid="map-panel"
       >
+        <span
+          aria-hidden="true"
+          class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/70 to-transparent"
+        />
         <div v-if="zonaSeleccionada">
           <p class="text-xs font-semibold uppercase tracking-wider text-ink-600 dark:text-ink-400">
             Zona seleccionada
           </p>
-          <h3 class="mt-1 text-2xl font-bold tracking-tight text-ink-950 dark:text-white">
+          <h3 class="mt-1 flex items-center gap-2.5 text-2xl font-bold tracking-tight text-ink-950 dark:text-white">
+            <span class="relative flex size-2" aria-hidden="true">
+              <span class="absolute inline-flex size-full animate-ping rounded-full bg-brand-400 opacity-70" />
+              <span class="relative inline-flex size-2 rounded-full bg-brand-600" />
+            </span>
             {{ zonaSeleccionada.nombre }}
           </h3>
           <dl class="mt-4 space-y-3 text-sm">

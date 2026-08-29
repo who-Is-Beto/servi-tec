@@ -38,6 +38,21 @@
   ::selection {
     @apply bg-brand-600 text-white;
   }
+
+  /* Accesibilidad: si el usuario prefiere menos movimiento, se apagan las
+     animaciones declaradas con CSS (marquee, drift, floaty, shimmer…) y se
+     respeta el fin de las transiciones. Los elementos quedan en su estado
+     estático inicial (visible y funcional). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer components {
@@ -84,6 +99,21 @@
     transform: none;
   }
 
+  /* Texto con gradiente animado (barrido de brillo sobre el acento). */
+  .text-shimmer {
+    background-size: 200% auto;
+    animation: shimmer 5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+
   /* Deriva ambiental de los halos del hero (muy lenta, no es un loop que
      compita con el contenido; solo textura de fondo). */
   .halo-uno {
@@ -103,4 +133,14 @@
       transform: translate3d(2rem, -2rem, 0) scale(1.06);
     }
   }
+}
+
+/* Rejilla técnica sutil para fondos oscuros del hero. */
+.bg-grid-faint {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 54px 54px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 62% at 50% 42%, black 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 62% at 50% 42%, black 20%, transparent 75%);
 }
