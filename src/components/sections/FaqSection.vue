@@ -27,7 +27,15 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
           <summary
             class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-2xl px-5 py-4 font-semibold text-ink-950 [&::-webkit-details-marker]:hidden dark:text-white"
           >
-            {{ item.pregunta }}
+            <span class="flex min-w-0 items-start gap-3">
+              <span
+                aria-hidden="true"
+                class="mt-0.5 shrink-0 font-mono text-xs font-semibold tracking-widest text-brand-600 dark:text-brand-300"
+              >
+                {{ String(i + 1).padStart(2, '0') }}
+              </span>
+              <span>{{ item.pregunta }}</span>
+            </span>
             <span
               aria-hidden="true"
               class="grid size-8 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-600 transition-all duration-200 group-open:rotate-180 group-open:bg-brand-600 group-open:text-white dark:bg-ink-950 dark:text-brand-300 dark:group-open:bg-brand-600 dark:group-open:text-white"

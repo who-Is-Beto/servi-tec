@@ -30,7 +30,7 @@ const variantClasses: Record<string, string> = {
   primary:
     'bg-gradient-to-b from-brand-500 to-brand-700 text-white shadow-cta ring-1 ring-inset ring-white/10 hover:from-brand-400 hover:to-brand-600 hover:shadow-panel dark:from-brand-500 dark:to-brand-700',
   secondary:
-    'bg-white text-ink-900 ring-1 ring-inset ring-ink-200 shadow-sm hover:ring-brand-400 hover:shadow-card dark:bg-ink-900 dark:text-ink-50 dark:ring-ink-700 dark:hover:ring-brand-500',
+    'bg-white text-ink-900 ring-1 ring-inset ring-ink-200 shadow-sm hover:bg-ink-50 hover:ring-brand-400 hover:shadow-card dark:bg-ink-900 dark:text-ink-50 dark:ring-ink-700 dark:hover:bg-ink-800 dark:hover:ring-brand-500',
   ghost: 'text-brand-700 hover:bg-brand-50 dark:text-brand-300 dark:hover:bg-ink-900',
 }
 

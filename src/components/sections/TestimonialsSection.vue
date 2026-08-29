@@ -18,11 +18,12 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
         :key="i"
         v-reveal="{ delay: i * 110 }"
         class="relative flex flex-col justify-between overflow-hidden rounded-2xl p-7 transition-transform duration-200 hover:-translate-y-1"
-        :class="
+        :class="[
           i % 2 === 0
             ? 'bg-ink-950 text-white shadow-card-hover ring-1 ring-ink-800'
-            : 'bg-white text-ink-900 ring-1 ring-ink-200/60 shadow-card dark:bg-ink-900 dark:text-white dark:ring-ink-800'
-        "
+            : 'bg-white text-ink-900 ring-1 ring-ink-200/60 shadow-card dark:bg-ink-900 dark:text-white dark:ring-ink-800',
+          i === 1 && 'md:mt-10',
+        ]"
       >
         <span
           aria-hidden="true"
@@ -39,7 +40,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
             </span>
           </div>
           <blockquote
-            class="mt-5 text-sm leading-relaxed"
+            class="mt-5 text-base leading-relaxed"
             :class="i % 2 === 0 ? 'text-ink-100' : 'text-ink-700 dark:text-ink-300'"
           >
             &ldquo;{{ t.cita }}&rdquo;

@@ -62,6 +62,14 @@ const gridCols = (i: number): string => {
         />
 
         <span
+          aria-hidden="true"
+          class="absolute right-5 top-5 font-mono text-xs font-semibold tracking-widest"
+          :class="i === 1 ? 'text-white/40' : 'text-ink-300 dark:text-ink-700'"
+        >
+          {{ String(i + 1).padStart(2, '0') }}
+        </span>
+
+        <span
           class="relative grid size-12 place-items-center rounded-xl bg-gradient-to-br text-white shadow-[0_8px_20px_-8px_rgba(28,54,161,0.55)] transition-transform duration-200 group-hover:scale-105"
           :class="i === 1 ? 'from-brand-400 to-brand-600' : 'from-brand-600 to-brand-800'"
           aria-hidden="true"

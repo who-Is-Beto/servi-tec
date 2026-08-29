@@ -33,11 +33,11 @@ const { trackCall } = useConversion()
     <!-- Profundidad: dos halos de la misma familia de acento, con deriva lenta -->
     <div
       aria-hidden="true"
-      class="halo-uno pointer-events-none absolute -right-40 -top-40 -z-10 size-[32rem] rounded-full bg-brand-100 blur-3xl dark:bg-brand-950/80"
+      class="halo-uno pointer-events-none absolute -right-40 -top-40 -z-10 size-[34rem] rounded-full bg-brand-200/70 blur-3xl dark:bg-brand-950/90"
     />
     <div
       aria-hidden="true"
-      class="halo-dos pointer-events-none absolute -bottom-56 -left-44 -z-10 size-[30rem] rounded-full bg-brand-100/60 blur-3xl dark:bg-brand-950/50"
+      class="halo-dos pointer-events-none absolute -bottom-56 -left-44 -z-10 size-[30rem] rounded-full bg-brand-100/80 blur-3xl dark:bg-brand-950/60"
     />
 
     <div class="page-container grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:py-24">
