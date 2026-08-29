@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.local
+.env.*.local
+.playwright/
+test-results/
+test-results-redesign/
+playwright-report/
+.DS_Store
+*.log
+.vite/

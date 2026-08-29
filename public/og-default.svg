@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#101622"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#2563eb"/>
+  <g fill="none" stroke="#1e3a8a" stroke-width="2">
+    <circle cx="1010" cy="320" r="180" opacity=".6"/>
+    <circle cx="1010" cy="320" r="260" opacity=".35"/>
+    <circle cx="1010" cy="320" r="340" opacity=".2"/>
+  </g>
+  <rect x="92" y="150" width="56" height="56" rx="14" fill="#2563eb"/>
+  <path d="M112 166a8 8 0 0 1 8-8h6a8 8 0 0 1 8 8v6h-2v-4a6 6 0 0 0-6-6h-6a6 6 0 0 0-6 6v4h10v-2h1v5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-9Z" fill="#fff"/>
+  <rect x="106" y="182" width="28" height="18" rx="3" fill="#fff"/>
+  <circle cx="112" cy="190" r="1.6" fill="#101622"/>
+  <circle cx="119" cy="190" r="1.6" fill="#101622"/>
+  <circle cx="126" cy="190" r="1.6" fill="#101622"/>
+  <rect x="104" y="204" width="32" height="7" rx="2" fill="#fff" opacity=".85"/>
+  <text x="172" y="196" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="58" font-weight="800" fill="#ffffff">TecServi</text>
+  <text x="96" y="330" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="34" font-weight="600" fill="#e2e8f0">Reparación de lavadoras, refrigeradores, estufas</text>
+  <text x="96" y="374" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="34" font-weight="600" fill="#e2e8f0">y secadoras a domicilio en CDMX y ZMCM.</text>
+  <text x="96" y="470" font-family="system-ui, monospace" font-size="26" font-weight="600" fill="#60a5fa">Cotización sin costo · Garantía de 90 días</text>
+</svg>
