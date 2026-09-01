@@ -34,7 +34,7 @@ test.describe('Landing TecServi', () => {
       await expect(page.locator(`#${seccion}`)).toBeVisible()
     }
 
-    const tel = '+525500000000'
+    const tel = '+525569089455'
     await expect(page.getByTestId('hero-phone')).toHaveAttribute('href', `tel:${tel}`)
     if (page.viewportSize()!.width >= 768) {
       await expect(page.getByTestId('header-phone')).toHaveAttribute('href', `tel:${tel}`)

@@ -1,24 +1,32 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { IconCalendarEvent, IconCircleCheckFilled, IconLoader2 } from '@tabler/icons-vue'
+import IconCalendarEvent from '@tabler/icons-vue/dist/esm/icons/IconCalendarEvent.mjs'
+import IconCircleCheckFilled from '@tabler/icons-vue/dist/esm/icons/IconCircleCheckFilled.mjs'
+import IconLoader2 from '@tabler/icons-vue/dist/esm/icons/IconLoader2.mjs'
 import { useSchedulingStore } from '@/stores/scheduling'
 import { useConversion } from '@/composables/useConversion'
 import { MARCAS, marcaPorId } from '@/data/marcas'
 import { SERVICIOS, servicioPorId } from '@/data/servicios'
 import { ZONAS_FORMULARIO, zonaPorId } from '@/data/zonas'
 import { HORARIOS } from '@/data/horarios'
-import { SITE } from '@/data/config'
+import { SITE, WHATSAPP } from '@/data/config'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppTextField from '@/components/ui/AppTextField.vue'
 import AppSelectField from '@/components/ui/AppSelectField.vue'
+import WhatsAppIcon from '@/components/ui/WhatsAppIcon.vue'
 
 /**
- * Punto de integración del formulario:
- * Aquí se envían los datos a tu proveedor de formularios. Opciones sin backend:
- *  1. Formspree:  https://formspree.io/f/GENERADO  → en POST https://formspree.io/f/xxx
- *  2. Web3Forms:  https://api.web3forms.com/submit (campo access_key).
- * Opciones con backend propio: un endpoint que haga POST a tu CRM/WhatsApp.
- * Cuando confirmes el proveedor, sustituye el `await fakeEnviar()` por el fetch real.
+ * NOTIFICACIÓN AL EQUIPO TÉCNICO vía WhatsApp.
+ *
+ * El formulario NO se envía a un servidor: al completarlo se abre un chat de
+ * WhatsApp (wa.me) hacia +52 55 6908 9455 con un mensaje preconstruido a partir
+ * de los datos capturados (nombre, teléfono, marca, equipo, zona, horario).
+ * El usuario solo pulsa "Enviar" en WhatsApp y la solicitud llega al equipo sin
+ * infraestructura extra.
+ *
+ * Si más adelante necesitas email o una API (Twilio/WhatsApp Business), puedes
+ * sustituir `abrirWhatsApp()` por un POST a tu backend, pero hoy el canal real
+ * de contacto es WhatsApp y NO se finge ninguna notificación intermedia.
  */
 
 const store = useSchedulingStore()
@@ -65,20 +73,40 @@ function validar(): boolean {
   return Object.keys(e).length === 0
 }
 
-// TODO(mcp): reemplazar por POST real a Formspree/Web3Forms/CRM.
-async function fakeEnviar(): Promise<void> {
-  await new Promise((r) => setTimeout(r, 700))
+/** Construye el mensaje de WhatsApp a partir de los datos del formulario. */
+function construirMensaje(): string {
+  const f = store.form
+  const horario = horarioLabel(f.horarioId)
+  const lineas = [
+    `Hola, vengo de la página de ${SITE.nombre}.`,
+    'Me gustaría agendar una reparación:',
+    `• Nombre: ${f.nombre.trim()}`,
+    `• Teléfono: ${f.telefono.trim()}`,
+    `• Marca: ${marcaLabel(f.marcaId)}`,
+    `• Equipo: ${servicioLabel(f.servicioId)}`,
+    `• Zona: ${zonaLabel(f.zonaId)}`,
+    horario ? `• Horario: ${horario.label} (${horario.detalle})` : '',
+    '',
+    'Gracias.',
+  ]
+  return lineas.filter((l) => l !== '').join('\n')
+}
+
+/** Abre el chat de WhatsApp con el mensaje preconstruido (nueva pestaña). */
+function abrirWhatsApp(): void {
+  const url = `https://wa.me/${WHATSAPP.telefono}?text=${encodeURIComponent(construirMensaje())}`
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 async function onSubmit(): Promise<void> {
   if (store.submitting || !validar()) return
   store.setSubmitting(true)
   try {
-    await fakeEnviar()
+    abrirWhatsApp()
     store.markSubmitted()
     trackSchedule('form_section')
   } catch {
-    store.setSubmitError('No pudimos registrar tu cita. Intenta de nuevo o llámanos directo.')
+    store.setSubmitError('No pudimos abrir WhatsApp. Intenta de nuevo o llámanos directo.')
   } finally {
     store.setSubmitting(false)
   }
@@ -94,17 +122,30 @@ const horarioSeleccionado = computed(() => horarioLabel(store.form.horarioId))
         <IconCircleCheckFilled aria-hidden="true" class="mx-auto size-14 text-brand-600" />
         <h3 class="mt-4 text-xl font-bold text-ink-950 dark:text-white">¡Listo, te esperamos!</h3>
         <p class="mt-2 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
-          {{ store.form.nombre.trim() }}, tu solicitud quedó registrada para
+          {{ store.form.nombre.trim() }}, abrimos tu chat de WhatsApp con la
           <strong>{{ servicioLabel(store.form.servicioId) }}</strong>
           de <strong>{{ marcaLabel(store.form.marcaId) }}</strong> en
           <strong>{{ zonaLabel(store.form.zonaId) }}</strong
           ><template v-if="horarioSeleccionado">
             , en el horario <strong>{{ horarioSeleccionado.label }}</strong>
-          </template>. Te llamaremos para confirmar la visita.
+          </template>. Solo pulsa <strong>Enviar</strong> y tu solicitud llegará directo al equipo.
         </p>
-        <p class="mt-4 text-xs text-ink-600 dark:text-ink-400">
-          ¿Urgencia? Llámanos directo: <a class="tnum font-semibold text-brand-700 underline dark:text-brand-300" :href="`tel:${SITE.telefono}`">{{ SITE.telefonoDisplay }}</a>
-        </p>
+        <div class="mt-5 flex flex-col items-center gap-2">
+          <a
+            :href="`https://wa.me/${WHATSAPP.telefono}?text=${encodeURIComponent(construirMensaje())}`"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full bg-[#188038] px-6 py-3 text-sm font-semibold text-white ring-1 ring-inset ring-white/20 transition-colors hover:bg-[#12602a]"
+            data-testid="schedule-whatsapp-success"
+          >
+            <WhatsAppIcon class="size-4" />
+            Abrir WhatsApp de nuevo
+          </a>
+          <p class="text-xs text-ink-600 dark:text-ink-400">
+            ¿No se abrió? Llámanos directo:
+            <a class="tnum font-semibold text-brand-700 underline dark:text-brand-300" :href="`tel:${SITE.telefono}`">{{ SITE.telefonoDisplay }}</a>
+          </p>
+        </div>
       </div>
     </div>
 

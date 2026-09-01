@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Manrope Variable — SOLO latin (contenido es-MX). Se pre-carga en index.html
+   para que el texto del hero (LCP) renderice antes. El paquete variable solo
+   expone estilos por subconjunto completo, así que definimos latin a mano. */
+@font-face {
+  font-family: 'Manrope Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2')
+    format('woff2-variations');
+}
+
 @layer base {
   html {
     @apply scroll-smooth;

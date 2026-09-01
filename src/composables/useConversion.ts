@@ -36,6 +36,24 @@ export function useConversion() {
     }
   }
 
+  /** Click en "Chat por WhatsApp". */
+  function trackWhatsApp(source: 'fab' | 'hero' | 'header' | 'footer' | 'section' = 'fab'): void {
+    if (analyticsIds.ga4) {
+      gtag('event', 'generate_lead', {
+        currency: 'MXN',
+        value: 1,
+        event_category: 'whatsapp',
+        event_label: source,
+      })
+    }
+    if (analyticsIds.ads) {
+      gtag('event', 'conversion', { send_to: analyticsIds.ads })
+    }
+    if (analyticsIds.meta) {
+      fbq('track', 'Contact')
+    }
+  }
+
   /** Envío exitoso del formulario "Agendar visita". */
   function trackSchedule(source: 'form_section' | 'map_zone' = 'form_section'): void {
     if (analyticsIds.ga4) {
@@ -54,5 +72,5 @@ export function useConversion() {
     }
   }
 
-  return { trackCall, trackSchedule }
+  return { trackCall, trackWhatsApp, trackSchedule }
 }

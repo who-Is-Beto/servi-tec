@@ -6,10 +6,11 @@ import router from './router'
 import { loadTracking } from './config/tracking'
 import { vReveal } from './directives/reveal'
 
-// Fuentes self-hosted (font-display: swap, sin llamadas a Google Fonts).
-import '@fontsource-variable/manrope'
-import '@fontsource/ibm-plex-mono/400.css'
-import '@fontsource/ibm-plex-mono/600.css'
+// Fuentes self-hosted, SOLO subconjunto latin (el contenido es es-MX):
+// font-display: swap, sin llamadas a Google Fonts y sin subconjuntos
+// (cyrillic/greek/vietnamese) que nunca se usan. Se pre-cargan en index.html.
+import '@fontsource/ibm-plex-mono/latin-400.css'
+import '@fontsource/ibm-plex-mono/latin-600.css'
 
 import './style.css'
 

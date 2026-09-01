@@ -9,10 +9,10 @@ export const SITE = {
   /** Nombre usado en schema.org y términos legales. */
   nombreLegal: 'TecServi Reparaciones de Línea Blanca',
   eslogan: 'Reparación de línea blanca a domicilio',
-  /** Teléfono en formato tel: (solo dígitos, con lada 55). TODO: reemplazar. */
-  telefono: '+525500000000',
-  /** Teléfono como se muestra en pantalla. */
-  telefonoDisplay: '55 0000 0000',
+  /** Teléfono en formato tel: (solo dígitos, con lada 55). Mismo número que WhatsApp. */
+  telefono: '+525569089455',
+  /** Texto que se muestra en el CTA de llamada (no se imprime el número). */
+  telefonoDisplay: 'Llámanos y agenda',
   /** Correo público. TODO: reemplazar. */
   email: 'hola@tecservi.mx',
   /** URL base. En producción debería ir en VITE_SITE_URL. */
@@ -24,6 +24,22 @@ export const SITE = {
 
 /** La URL se resuelve primero desde el entorno; si no, del placeholder. */
 export const SITE_URL = (import.meta.env.VITE_SITE_URL ?? SITE.url).replace(/\/$/, '')
+
+/**
+ * WhatsApp: canal de contacto principal (CTA de baja fricción).
+ * Se arma el enlace wa.me con el mensaje prellenado y codificado en URL.
+ * TODO: confirmar el número definitivo con el cliente antes de campañas.
+ */
+export const WHATSAPP = {
+  /** Número en formato internacional sin "+", espacios ni guiones (52 + 10 dígitos). */
+  telefono: '525569089455',
+  /** Mensaje corto que llega prellenado al abrir el chat. */
+  saludo: 'Hola, vengo de la página de TecServi y quiero agendar una reparación.',
+  /** Enlace listo para usar como href. */
+  get enlace(): string {
+    return `https://wa.me/${this.telefono}?text=${encodeURIComponent(this.saludo)}`
+  },
+} as const
 
 /**
  * Promesas comerciales visibles en la página. Todas son EDITABLES y deben

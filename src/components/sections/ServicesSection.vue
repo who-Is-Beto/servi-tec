@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { markRaw, onMounted, ref, type Component } from 'vue'
-import { IconWashMachine, IconWashTumbleDry, IconFridge, IconCooker, IconGlassFull, IconMicrowave } from '@tabler/icons-vue'
+import IconWashMachine from '@tabler/icons-vue/dist/esm/icons/IconWashMachine.mjs'
+import IconWashTumbleDry from '@tabler/icons-vue/dist/esm/icons/IconWashTumbleDry.mjs'
+import IconFridge from '@tabler/icons-vue/dist/esm/icons/IconFridge.mjs'
+import IconCooker from '@tabler/icons-vue/dist/esm/icons/IconCooker.mjs'
+import IconGlassFull from '@tabler/icons-vue/dist/esm/icons/IconGlassFull.mjs'
+import IconMicrowave from '@tabler/icons-vue/dist/esm/icons/IconMicrowave.mjs'
 import type { ServicioIcono } from '@/types'
 import { SERVICIOS } from '@/data/servicios'
 import UiSection from '@/components/ui/UiSection.vue'
@@ -92,12 +97,6 @@ function onLeave(e: MouseEvent): void {
             :class="i === 1 ? 'bg-brand-600/20 dark:bg-brand-500/25' : 'bg-brand-100/80 dark:bg-brand-950/40'"
           />
 
-          <span
-            v-if="i <= 1"
-            aria-hidden="true"
-            class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/80 to-transparent transition-opacity duration-300 group-hover:via-brand-400"
-          />
-
           <!-- Brillo radial que sigue al cursor -->
           <span
             aria-hidden="true"
@@ -108,14 +107,6 @@ function onLeave(e: MouseEvent): void {
                 : 'radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(39,72,200,0.10), transparent 70%)',
             }"
           />
-
-          <span
-            aria-hidden="true"
-            class="absolute right-5 top-5 font-mono text-xs font-semibold tracking-widest"
-            :class="i === 1 ? 'text-white/40' : 'text-ink-300 dark:text-ink-700'"
-          >
-            {{ String(i + 1).padStart(2, '0') }}
-          </span>
 
           <span
             class="relative grid size-12 place-items-center rounded-xl bg-gradient-to-br text-white shadow-[0_8px_20px_-8px_rgba(28,54,161,0.55)] transition-transform duration-200 group-hover:scale-110"

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { IconPhone, IconClock, IconMail } from '@tabler/icons-vue'
+import IconPhone from '@tabler/icons-vue/dist/esm/icons/IconPhone.mjs'
+import IconClock from '@tabler/icons-vue/dist/esm/icons/IconClock.mjs'
+import IconMail from '@tabler/icons-vue/dist/esm/icons/IconMail.mjs'
 import { SITE, LEGAL } from '@/data/config'
 import { ZONAS_CDMX, ZONAS_EDOMEX } from '@/data/zonas'
 import { useConversion } from '@/composables/useConversion'

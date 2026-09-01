@@ -9,7 +9,7 @@ const marcaPrincipal = MARCAS[0]?.nombre ?? 'las principales marcas'
 </script>
 
 <template>
-  <UiSection id="marcas" class="bg-paper-mute dark:bg-ink-950">
+  <UiSection id="marcas" class="bg-paper-mute !pb-4 sm:!pb-8 lg:!pb-10 dark:bg-ink-950">
     <SectionHeading
       :title="`Servicio especializado en ${marcaPrincipal} y más`"
       intro="No somos centro de servicio oficial de ninguna marca: ofrecemos reparación especializada con refacciones originales o equivalentes compatibles, lo que permite costos más accesibles."

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { IconMapPin, IconClock, IconCalendarEvent, IconInfoCircle } from '@tabler/icons-vue'
+import IconMapPin from '@tabler/icons-vue/dist/esm/icons/IconMapPin.mjs'
+import IconClock from '@tabler/icons-vue/dist/esm/icons/IconClock.mjs'
+import IconCalendarEvent from '@tabler/icons-vue/dist/esm/icons/IconCalendarEvent.mjs'
+import IconInfoCircle from '@tabler/icons-vue/dist/esm/icons/IconInfoCircle.mjs'
 import { ZONAS_CDMX, ZONAS_EDOMEX, zonaPorId } from '@/data/zonas'
 import { CDMX_MAPA, EDOMEX_MAPA, EDOMEX_CONTEXTO, MAPA_META } from '@/data/zonas-mapa'
 import { useSchedulingStore } from '@/stores/scheduling'
@@ -63,10 +66,6 @@ function fontSize(z: (typeof CDMX_MAPA)[number]): string {
         v-reveal="{ from: 'left' }"
         class="relative overflow-hidden rounded-3xl bg-white p-4 shadow-card ring-1 ring-ink-200/60 sm:p-6 dark:bg-ink-900 dark:ring-ink-800"
       >
-        <span
-          aria-hidden="true"
-          class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/70 to-transparent"
-        />
         <svg
           :viewBox="MAPA_META.viewBox.join(' ')"
           class="h-auto w-full select-none"
@@ -190,10 +189,6 @@ function fontSize(z: (typeof CDMX_MAPA)[number]): string {
         aria-live="polite"
         data-testid="map-panel"
       >
-        <span
-          aria-hidden="true"
-          class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-brand-400/70 to-transparent"
-        />
         <div v-if="zonaSeleccionada">
           <p class="text-xs font-semibold uppercase tracking-wider text-ink-600 dark:text-ink-400">
             Zona seleccionada
