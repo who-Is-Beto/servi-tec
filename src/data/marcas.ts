@@ -2,6 +2,7 @@ import type { Marca } from '@/types'
 import samsungLogo from '@/media/samsung.png'
 import lgLogo from '@/media/LG.png'
 import mabeLogo from '@/media/mabe.png'
+import whirlpoolLogo from '@/media/Whirlpool.png'
 
 /**
  * Marcas atendidas.
@@ -42,6 +43,7 @@ export const MARCAS: Marca[] = [
     id: 'linea-general',
     nombre: 'Línea general',
     color: '#262a33',
+    logo: whirlpoolLogo,
     descripcion: 'Otras marcas: Whirlpool, Bosch, Electrolux, Oster y similares.',
   },
 ] as const

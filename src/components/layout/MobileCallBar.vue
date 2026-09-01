@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { IconPhone, IconCalendarEvent } from '@tabler/icons-vue'
+import IconPhone from '@tabler/icons-vue/dist/esm/icons/IconPhone.mjs'
+import IconCalendarEvent from '@tabler/icons-vue/dist/esm/icons/IconCalendarEvent.mjs'
 import { SITE } from '@/data/config'
 import { useConversion } from '@/composables/useConversion'
 

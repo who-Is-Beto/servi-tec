@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { IconPhone, IconMenu2, IconX } from '@tabler/icons-vue'
-import { SITE } from '@/data/config'
+import IconPhone from '@tabler/icons-vue/dist/esm/icons/IconPhone.mjs'
+import IconMenu2 from '@tabler/icons-vue/dist/esm/icons/IconMenu2.mjs'
+import IconX from '@tabler/icons-vue/dist/esm/icons/IconX.mjs'
+import { SITE, WHATSAPP } from '@/data/config'
 import { useConversion } from '@/composables/useConversion'
-import AppButton from '@/components/ui/AppButton.vue'
+import WhatsAppIcon from '@/components/ui/WhatsAppIcon.vue'
 
-const { trackCall } = useConversion()
+const { trackCall, trackWhatsApp } = useConversion()
 const menuOpen = ref(false)
 
 const navLinks = [
@@ -63,9 +65,17 @@ const navLinks = [
             </span>
             {{ SITE.telefonoDisplay }}
           </a>
-          <AppButton href="#agendar" variant="primary" size="md" class="hidden sm:inline-flex">
-            Agendar visita
-          </AppButton>
+          <a
+            :href="WHATSAPP.enlace"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="header-whatsapp"
+            class="hidden items-center gap-2 rounded-full bg-[#188038] px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(31,189,90,0.7)] ring-1 ring-inset ring-white/20 transition-all duration-150 hover:bg-[#12602a] active:translate-y-px sm:inline-flex"
+            @click="trackWhatsApp('header')"
+          >
+            <WhatsAppIcon class="size-4" />
+            Agendar por WhatsApp
+          </a>
           <button
             class="grid size-10 place-items-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
             type="button"
@@ -101,23 +111,25 @@ const navLinks = [
           </a>
           <div class="mt-2 flex items-center gap-3 px-1">
             <a
+              :href="WHATSAPP.enlace"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#188038] px-4 py-3 font-semibold text-white shadow-[0_10px_24px_-12px_rgba(31,189,90,0.7)] ring-1 ring-inset ring-white/20 hover:bg-[#12602a]"
+              data-testid="mobile-whatsapp"
+              @click="menuOpen = false; trackWhatsApp('header')"
+            >
+              <WhatsAppIcon aria-hidden="true" class="size-4" />
+              Agendar por WhatsApp
+            </a>
+            <a
               :href="`tel:${SITE.telefono}`"
               class="tnum flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-b from-brand-500 to-brand-700 px-4 py-3 font-semibold text-white shadow-cta ring-1 ring-inset ring-white/10 hover:from-brand-400"
               data-testid="mobile-phone"
               @click="menuOpen = false; trackCall()"
             >
               <IconPhone aria-hidden="true" class="size-4" />
-              Llamar ahora
+              Llamar
             </a>
-            <AppButton
-              href="#agendar"
-              variant="secondary"
-              size="md"
-              class="flex-1"
-              @click="menuOpen = false"
-            >
-              Agendar visita
-            </AppButton>
           </div>
         </nav>
       </div>

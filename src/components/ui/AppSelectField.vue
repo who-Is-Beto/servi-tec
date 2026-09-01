@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { IconChevronDown } from '@tabler/icons-vue'
+import IconChevronDown from '@tabler/icons-vue/dist/esm/icons/IconChevronDown.mjs'
 
 interface Option {
   value: string
