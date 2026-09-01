@@ -16,3 +16,16 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+/**
+ * Tipos para los iconos de @tabler/icons-vue importados por subruta directa
+ * (dist/esm/icons/*.mjs). El paquete solo declara tipos para el barrel
+ * `@tabler/icons-vue`; estas subrutas .mjs no traen .d.ts y provocan TS7016
+ * (implicit any) en `vue-tsc --noEmit`. Cada módulo exporta por defecto un
+ * componente Vue.
+ */
+declare module '@tabler/icons-vue/dist/esm/icons/*.mjs' {
+  import type { DefineComponent } from 'vue'
+  const icon: DefineComponent<Record<string, unknown>>
+  export default icon
+}
