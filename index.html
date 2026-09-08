@@ -12,10 +12,17 @@
       type="image/avif"
       fetchpriority="high"
     />
+    <!--
+      TODO(hero): cuando se agreguen /src/assets/hero/washer_machine.png y
+      washer_machine_dryer.png, sustituir este preload por DOS declaraciones
+      condicionales al viewport (media="(max-width: 1023px)" para la versión
+      vertical y media="(min-width: 1024px)" para la horizontal) y ajustar
+      fetchpriority="high" solo a la activa, para no penalizar el LCP.
+    -->
     <title>TecServi | Reparación de Línea Blanca a Domicilio en CDMX</title>
     <meta
       name="description"
-      content="Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Servicio especializado en Samsung, LG y Mabe. Diagnóstico y cotización antes de reparar."
+      content="Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Servicio especializado en Samsung, LG, Mabe y Whirlpool. Diagnóstico y cotización antes de reparar."
     />
     <script>
       // Aplica el tema del sistema antes del primer paint para evitar flash.

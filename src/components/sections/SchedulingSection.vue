@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import IconShieldCheck from '@tabler/icons-vue/dist/esm/icons/IconShieldCheck.mjs'
 import IconClock from '@tabler/icons-vue/dist/esm/icons/IconClock.mjs'
 import IconCalculator from '@tabler/icons-vue/dist/esm/icons/IconCalculator.mjs'
 import IconBolt from '@tabler/icons-vue/dist/esm/icons/IconBolt.mjs'
 import IconPhone from '@tabler/icons-vue/dist/esm/icons/IconPhone.mjs'
 import IconArrowRight from '@tabler/icons-vue/dist/esm/icons/IconArrowRight.mjs'
-import { SITE, WHATSAPP } from '@/data/config'
+import { SITE } from '@/data/config'
 import UiSection from '@/components/ui/UiSection.vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import WhatsAppIcon from '@/components/ui/WhatsAppIcon.vue'
@@ -13,6 +14,12 @@ import { useConversion } from '@/composables/useConversion'
 import ScheduleForm from './ScheduleForm.vue'
 
 const { trackWhatsApp } = useConversion()
+
+const waLink = computed(() => {
+  const numero = SITE.whatsappNumber.replace(/\D/g, '')
+  const texto = encodeURIComponent(SITE.whatsappMensaje)
+  return `https://wa.me/${numero}?text=${texto}`
+})
 
 const beneficios = [
   {
@@ -50,12 +57,12 @@ const beneficios = [
       <div>
         <!-- Acción primaria de esta sección: WhatsApp -->
         <a
-          :href="WHATSAPP.enlace"
+          :href="waLink"
           target="_blank"
           rel="noopener noreferrer"
           data-testid="schedule-whatsapp"
           class="group relative flex items-center justify-between gap-4 overflow-hidden rounded-3xl bg-[#188038] p-6 text-white shadow-[0_16px_36px_-18px_rgba(31,189,90,0.6)] ring-1 ring-inset ring-white/20 transition-all duration-200 hover:bg-[#12602a] sm:p-7"
-          @click="trackWhatsApp('section')"
+          @click="trackWhatsApp()"
         >
           <span class="flex items-center gap-4">
             <span class="grid size-12 shrink-0 place-items-center rounded-full bg-white/20" aria-hidden="true">

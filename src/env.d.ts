@@ -11,6 +11,8 @@ interface ImportMetaEnv {
   readonly VITE_META_PIXEL_ID?: string
   /** URL base del sitio. Se usa para canonical, schema.org y el sitemap. */
   readonly VITE_SITE_URL?: string
+  /** Número de WhatsApp en formato internacional (solo dígitos, ej. 52556908945). */
+  readonly VITE_WHATSAPP_NUMBER?: string
 }
 
 interface ImportMeta {

@@ -2,7 +2,7 @@
 import SiteHeader from '@/components/layout/SiteHeader.vue'
 import SiteFooter from '@/components/layout/SiteFooter.vue'
 import MobileCallBar from '@/components/layout/MobileCallBar.vue'
-import WhatsAppFab from '@/components/layout/WhatsAppFab.vue'
+import FloatingWhatsApp from '@/components/layout/FloatingWhatsApp.vue'
 </script>
 
 <template>
@@ -21,5 +21,5 @@ import WhatsAppFab from '@/components/layout/WhatsAppFab.vue'
 
   <SiteFooter />
   <MobileCallBar />
-  <WhatsAppFab />
+  <FloatingWhatsApp />
 </template>

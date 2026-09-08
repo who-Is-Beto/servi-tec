@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { usePageSeo, useJsonLd } from '@/composables/useSeo'
 import { SITE, SITE_URL } from '@/data/config'
+import { MARCAS } from '@/data/marcas'
 import { areaServed } from '@/data/zonas'
 import HeroSection from '@/components/sections/HeroSection.vue'
 import BrandsSection from '@/components/sections/BrandsSection.vue'
+import WhySection from '@/components/sections/WhySection.vue'
 import ServicesSection from '@/components/sections/ServicesSection.vue'
 import CoverageSection from '@/components/sections/CoverageSection.vue'
 import SchedulingSection from '@/components/sections/SchedulingSection.vue'
+import MetodosPagoSection from '@/components/sections/MetodosPagoSection.vue'
 import TestimonialsSection from '@/components/sections/TestimonialsSection.vue'
 import FaqSection from '@/components/sections/FaqSection.vue'
 
@@ -28,6 +31,8 @@ useJsonLd({
   telephone: SITE.telefono,
   email: SITE.email,
   priceRange: '$$',
+  // Marcas que atendemos (mantener en sincronía con /src/data/marcas.ts).
+  knowsAbout: MARCAS.map((m) => m.nombre),
   areaServed: [
     {
       '@type': 'City',
@@ -70,9 +75,11 @@ useJsonLd({
 <template>
   <HeroSection />
   <BrandsSection />
+  <WhySection />
   <ServicesSection />
   <CoverageSection />
   <SchedulingSection />
+  <MetodosPagoSection />
   <TestimonialsSection />
   <FaqSection />
 </template>

@@ -12,8 +12,17 @@ const marcaPrincipal = MARCAS[0]?.nombre ?? 'las principales marcas'
   <UiSection id="marcas" class="bg-paper-mute !pb-4 sm:!pb-8 lg:!pb-10 dark:bg-ink-950">
     <SectionHeading
       :title="`Servicio especializado en ${marcaPrincipal} y más`"
-      intro="No somos centro de servicio oficial de ninguna marca: ofrecemos reparación especializada con refacciones originales o equivalentes compatibles, lo que permite costos más accesibles."
+      intro="¿Quiénes somos?"
     />
+
+    <!-- Copy "¿Quiénes somos?" (centro de servicio especializado) -->
+    <p
+      v-reveal
+      class="mt-6 max-w-3xl text-base leading-relaxed text-ink-700 dark:text-ink-300"
+      data-testid="quienes-somos"
+    >
+      {{ LEGAL.quienesSomos }}
+    </p>
 
     <!-- Cinta de marcas en movimiento perpetuo (se pausa al pasar el cursor) -->
     <div

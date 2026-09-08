@@ -15,6 +15,7 @@ const PALETA: Record<string, { texto: string; device: string; device2?: string }
   samsung: { texto: '#1428a0', device: '#1428a0' },
   lg: { texto: '#ffffff', device: '#a50034' },
   mabe: { texto: '#007a45', device: '#007a45', device2: '#ffffff' },
+  whirlpool: { texto: '#0067b9', device: '#0067b9' },
   'linea-general': { texto: 'currentColor', device: '#2563eb' },
 }
 
@@ -45,6 +46,12 @@ const c = PALETA[props.marca.id] ?? { texto: 'currentColor', device: '#2563eb' }
       <circle cx="24" cy="24" r="15" :fill="c.device" />
       <text x="24" y="30" text-anchor="middle" font-size="17" font-weight="800" :fill="c.device2">m</text>
       <text x="150" y="32" text-anchor="end" font-size="24" font-weight="800" letter-spacing="1" :fill="c.texto">mabe</text>
+    </template>
+
+    <template v-else-if="marca.id === 'whirlpool'">
+      <circle cx="24" cy="24" r="16" :fill="c.device" />
+      <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="800" :fill="'#ffffff'">W</text>
+      <text x="150" y="32" text-anchor="end" font-size="17" font-weight="800" letter-spacing="1" :fill="c.texto">Whirlpool</text>
     </template>
 
     <template v-else>

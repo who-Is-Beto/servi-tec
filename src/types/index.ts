@@ -66,6 +66,10 @@ export interface AgendaRequest {
   servicioId: string
   zonaId: string
   horarioId: string
+  /** ID de la falla predefinida seleccionada (ver /src/data/fallas.ts). */
+  falla: string
+  /** Texto libre si se eligió "Otra" como falla (fallaDescripcion). */
+  fallaDescripcion: string
 }
 
 export interface HorarioDisponible {
