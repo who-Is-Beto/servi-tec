@@ -1,32 +1,26 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import IconCalendarEvent from '@tabler/icons-vue/dist/esm/icons/IconCalendarEvent.mjs'
-import IconCircleCheckFilled from '@tabler/icons-vue/dist/esm/icons/IconCircleCheckFilled.mjs'
-import IconLoader2 from '@tabler/icons-vue/dist/esm/icons/IconLoader2.mjs'
+import { IconCalendarEvent, IconCircleCheckFilled, IconLoader2 } from '@tabler/icons-vue'
 import { useSchedulingStore } from '@/stores/scheduling'
 import { useConversion } from '@/composables/useConversion'
+import type { AgendaRequest } from '@/types'
+import { FALLAS, fallaPorId, OTRA_FALLA_ID } from '@/data/fallas'
 import { MARCAS, marcaPorId } from '@/data/marcas'
 import { SERVICIOS, servicioPorId } from '@/data/servicios'
 import { ZONAS_FORMULARIO, zonaPorId } from '@/data/zonas'
 import { HORARIOS } from '@/data/horarios'
-import { SITE, WHATSAPP } from '@/data/config'
+import { SITE } from '@/data/config'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppTextField from '@/components/ui/AppTextField.vue'
 import AppSelectField from '@/components/ui/AppSelectField.vue'
-import WhatsAppIcon from '@/components/ui/WhatsAppIcon.vue'
 
 /**
- * NOTIFICACIÓN AL EQUIPO TÉCNICO vía WhatsApp.
- *
- * El formulario NO se envía a un servidor: al completarlo se abre un chat de
- * WhatsApp (wa.me) hacia +52 55 6908 9455 con un mensaje preconstruido a partir
- * de los datos capturados (nombre, teléfono, marca, equipo, zona, horario).
- * El usuario solo pulsa "Enviar" en WhatsApp y la solicitud llega al equipo sin
- * infraestructura extra.
- *
- * Si más adelante necesitas email o una API (Twilio/WhatsApp Business), puedes
- * sustituir `abrirWhatsApp()` por un POST a tu backend, pero hoy el canal real
- * de contacto es WhatsApp y NO se finge ninguna notificación intermedia.
+ * Punto de integración del formulario:
+ * Aquí se envían los datos a tu proveedor de formularios. Opciones sin backend:
+ *  1. Formspree:  https://formspree.io/f/GENERADO  → en POST https://formspree.io/f/xxx
+ *  2. Web3Forms:  https://api.web3forms.com/submit (campo access_key).
+ * Opciones con backend propio: un endpoint que haga POST a tu CRM/WhatsApp.
+ * Cuando confirmes el proveedor, sustituye el `await fakeEnviar()` por el fetch real.
  */
 
 const store = useSchedulingStore()
@@ -41,6 +35,15 @@ const horarioLabel = (id: string) => HORARIOS.find((h) => h.id === id)
 
 const marcaOptions = computed(() => MARCAS.map((m) => ({ value: m.id, label: m.nombre })))
 const servicioOptions = computed(() => SERVICIOS.map((s) => ({ value: s.id, label: s.nombre })))
+const fallaOptions = computed(() => FALLAS.map((f) => ({ value: f.id, label: f.label })))
+const esOtraFalla = computed(() => store.form.falla === OTRA_FALLA_ID)
+
+/** Texto descriptivo de la falla (usado en payload y tracking). */
+const textoFalla = computed(() => {
+  if (!store.form.falla) return ''
+  if (esOtraFalla.value) return store.form.fallaDescripcion.trim()
+  return fallaPorId(store.form.falla)?.label ?? ''
+})
 const zonaOptions = computed(() =>
   ZONAS_FORMULARIO.map((z) => ({
     value: z.id,
@@ -68,45 +71,33 @@ function validar(): boolean {
   if (!store.form.servicioId) e.servicioId = 'Selecciona el tipo de equipo.'
   if (!store.form.zonaId) e.zonaId = 'Selecciona tu zona (o elígela en el mapa).'
   if (!store.form.horarioId) e.horarioId = 'Selecciona la franja que te acomode.'
+  if (!store.form.falla) e.falla = 'Selecciona la falla que presenta tu equipo.'
+  if (esOtraFalla.value && store.form.fallaDescripcion.trim().length < 2) {
+    e.fallaDescripcion = 'Describe brevemente la falla o problema de tu equipo.'
+  }
 
   errores.value = e
   return Object.keys(e).length === 0
 }
 
-/** Construye el mensaje de WhatsApp a partir de los datos del formulario. */
-function construirMensaje(): string {
-  const f = store.form
-  const horario = horarioLabel(f.horarioId)
-  const lineas = [
-    `Hola, vengo de la página de ${SITE.nombre}.`,
-    'Me gustaría agendar una reparación:',
-    `• Nombre: ${f.nombre.trim()}`,
-    `• Teléfono: ${f.telefono.trim()}`,
-    `• Marca: ${marcaLabel(f.marcaId)}`,
-    `• Equipo: ${servicioLabel(f.servicioId)}`,
-    `• Zona: ${zonaLabel(f.zonaId)}`,
-    horario ? `• Horario: ${horario.label} (${horario.detalle})` : '',
-    '',
-    'Gracias.',
-  ]
-  return lineas.filter((l) => l !== '').join('\n')
-}
-
-/** Abre el chat de WhatsApp con el mensaje preconstruido (nueva pestaña). */
-function abrirWhatsApp(): void {
-  const url = `https://wa.me/${WHATSAPP.telefono}?text=${encodeURIComponent(construirMensaje())}`
-  window.open(url, '_blank', 'noopener,noreferrer')
+// TODO(mcp): reemplazar por POST real a Formspree/Web3Forms/CRM.
+async function fakeEnviar(payload: AgendaRequest & { fallaTexto: string }): Promise<void> {
+  // `payload` ya incluye `falla`, `fallaDescripcion` y `fallaTexto` (la
+  // descripción legible). Al conectar el proveedor real, envía este objeto
+  // (o el mapeo a Formspree/Web3Forms) por fetch/POST.
+  void payload
+  await new Promise((r) => setTimeout(r, 700))
 }
 
 async function onSubmit(): Promise<void> {
   if (store.submitting || !validar()) return
   store.setSubmitting(true)
   try {
-    abrirWhatsApp()
+    await fakeEnviar({ ...store.form, fallaTexto: textoFalla.value })
     store.markSubmitted()
-    trackSchedule('form_section')
+    trackSchedule('form_section', textoFalla.value)
   } catch {
-    store.setSubmitError('No pudimos abrir WhatsApp. Intenta de nuevo o llámanos directo.')
+    store.setSubmitError('No pudimos registrar tu cita. Intenta de nuevo o llámanos directo.')
   } finally {
     store.setSubmitting(false)
   }
@@ -122,30 +113,17 @@ const horarioSeleccionado = computed(() => horarioLabel(store.form.horarioId))
         <IconCircleCheckFilled aria-hidden="true" class="mx-auto size-14 text-brand-600" />
         <h3 class="mt-4 text-xl font-bold text-ink-950 dark:text-white">¡Listo, te esperamos!</h3>
         <p class="mt-2 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
-          {{ store.form.nombre.trim() }}, abrimos tu chat de WhatsApp con la
+          {{ store.form.nombre.trim() }}, tu solicitud quedó registrada para
           <strong>{{ servicioLabel(store.form.servicioId) }}</strong>
           de <strong>{{ marcaLabel(store.form.marcaId) }}</strong> en
           <strong>{{ zonaLabel(store.form.zonaId) }}</strong
           ><template v-if="horarioSeleccionado">
             , en el horario <strong>{{ horarioSeleccionado.label }}</strong>
-          </template>. Solo pulsa <strong>Enviar</strong> y tu solicitud llegará directo al equipo.
+          </template>. Te llamaremos para confirmar la visita.
         </p>
-        <div class="mt-5 flex flex-col items-center gap-2">
-          <a
-            :href="`https://wa.me/${WHATSAPP.telefono}?text=${encodeURIComponent(construirMensaje())}`"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-full bg-[#188038] px-6 py-3 text-sm font-semibold text-white ring-1 ring-inset ring-white/20 transition-colors hover:bg-[#12602a]"
-            data-testid="schedule-whatsapp-success"
-          >
-            <WhatsAppIcon class="size-4" />
-            Abrir WhatsApp de nuevo
-          </a>
-          <p class="text-xs text-ink-600 dark:text-ink-400">
-            ¿No se abrió? Llámanos directo:
-            <a class="tnum font-semibold text-brand-700 underline dark:text-brand-300" :href="`tel:${SITE.telefono}`">{{ SITE.telefonoDisplay }}</a>
-          </p>
-        </div>
+        <p class="mt-4 text-xs text-ink-600 dark:text-ink-400">
+          ¿Urgencia? Llámanos directo: <a class="tnum font-semibold text-brand-700 underline dark:text-brand-300" :href="`tel:${SITE.telefono}`">{{ SITE.telefonoDisplay }}</a>
+        </p>
       </div>
     </div>
 
@@ -175,8 +153,29 @@ const horarioSeleccionado = computed(() => horarioLabel(store.form.horarioId))
         <AppSelectField id="ag-marca" v-model="store.form.marcaId" label="Marca" required :options="marcaOptions" :error="errores.marcaId" />
         <AppSelectField id="ag-servicio" v-model="store.form.servicioId" label="Equipo" required :options="servicioOptions" placeholder-label="Elige el equipo…" :error="errores.servicioId" />
       </div>
-      <AppSelectField id="ag-zona" v-model="store.form.zonaId" label="Tu zona" required :options="zonaOptions" placeholder-label="Elige tu alcaldía o municipio…" :error="errores.zonaId" hint="Si ya la elegiste en el mapa, aquí ya aparece prellenada." />
-      <AppSelectField id="ag-horario" v-model="store.form.horarioId" label="Horario" required :options="horarioOptions" placeholder-label="Elige la franja…" :error="errores.horarioId" />
+      <div class="grid gap-4 sm:grid-cols-2">
+        <AppSelectField id="ag-zona" v-model="store.form.zonaId" label="Tu zona" required :options="zonaOptions" placeholder-label="Elige tu alcaldía o municipio…" :error="errores.zonaId" hint="Si ya la elegiste en el mapa, aquí ya aparece prellenada." />
+        <AppSelectField id="ag-horario" v-model="store.form.horarioId" label="Horario" required :options="horarioOptions" placeholder-label="Elige la franja…" :error="errores.horarioId" />
+      </div>
+      <AppSelectField
+        id="ag-falla"
+        v-model="store.form.falla"
+        label="¿Qué falla presenta el equipo?"
+        required
+        :options="fallaOptions"
+        placeholder-label="Elige la falla…"
+        :error="errores.falla"
+      />
+      <AppTextField
+        v-if="esOtraFalla"
+        id="ag-falla-desc"
+        v-model="store.form.fallaDescripcion"
+        label="Describe la falla"
+        required
+        placeholder="Ej. No enciende, hace ruido extraño, no drena agua…"
+        :error="errores.fallaDescripcion"
+        :maxlength="300"
+      />
 
       <p v-if="store.submitError" role="alert" class="text-sm text-red-700 dark:text-red-400">
         {{ store.submitError }}

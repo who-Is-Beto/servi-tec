@@ -9,10 +9,10 @@ export const SITE = {
   /** Nombre usado en schema.org y términos legales. */
   nombreLegal: 'TecServi Reparaciones de Línea Blanca',
   eslogan: 'Reparación de línea blanca a domicilio',
-  /** Teléfono en formato tel: (solo dígitos, con lada 55). Mismo número que WhatsApp. */
-  telefono: '+525569089455',
-  /** Texto que se muestra en el CTA de llamada (no se imprime el número). */
-  telefonoDisplay: 'Llámanos y agenda',
+  /** Teléfono en formato tel: (solo dígitos, con lada 55). Producción. */
+  telefono: '+52556908945',
+  /** Teléfono como se muestra en pantalla. */
+  telefonoDisplay: '55 6908 945',
   /** Correo público. TODO: reemplazar. */
   email: 'hola@tecservi.mx',
   /** URL base. En producción debería ir en VITE_SITE_URL. */
@@ -20,26 +20,20 @@ export const SITE = {
   region: 'Zona Metropolitana del Valle de México',
   direccionCorta: 'Ciudad de México y Estado de México',
   horario: 'Lunes a sábado, 9:00 a 19:00',
+  /**
+   * WhatsApp: número en formato internacional (solo dígitos) y mensaje
+   * predefinido. Se sobreescribe con VITE_WHATSAPP_NUMBER si existe.
+   * Producción: 52556908945.
+   */
+  whatsappNumber: import.meta.env.VITE_WHATSAPP_NUMBER ?? '52556908945',
+  whatsappMensaje:
+    'Hola, me gustaría agendar una revisión de mi equipo de línea blanca.',
+  /** Promesa de cobertura visible en la sección de beneficios. */
+  coberturaBadge: 'Cobertura en: CDMX y Área Metropolitana',
 } as const
 
 /** La URL se resuelve primero desde el entorno; si no, del placeholder. */
 export const SITE_URL = (import.meta.env.VITE_SITE_URL ?? SITE.url).replace(/\/$/, '')
-
-/**
- * WhatsApp: canal de contacto principal (CTA de baja fricción).
- * Se arma el enlace wa.me con el mensaje prellenado y codificado en URL.
- * TODO: confirmar el número definitivo con el cliente antes de campañas.
- */
-export const WHATSAPP = {
-  /** Número en formato internacional sin "+", espacios ni guiones (52 + 10 dígitos). */
-  telefono: '525569089455',
-  /** Mensaje corto que llega prellenado al abrir el chat. */
-  saludo: 'Hola, vengo de la página de TecServi y quiero agendar una reparación.',
-  /** Enlace listo para usar como href. */
-  get enlace(): string {
-    return `https://wa.me/${this.telefono}?text=${encodeURIComponent(this.saludo)}`
-  },
-} as const
 
 /**
  * Promesas comerciales visibles en la página. Todas son EDITABLES y deben
@@ -77,5 +71,8 @@ export const CLAIMS = {
 export const LEGAL = {
   independiente: true,
   declaracionIndependencia:
-    'TecServi es un servicio técnico independiente. No es fabricante, distribuidor ni centro de servicio autorizado de Samsung, LG, Mabe ni de cualquier otra marca.',
+    'TecServi es un servicio técnico independiente. No es fabricante, distribuidor ni centro de servicio autorizado de Samsung, LG, Mabe, Whirlpool ni de cualquier otra marca.',
+  /** Copy "¿Quiénes somos?" (sección de marcas). Énfasis en centro especializado. */
+  quienesSomos:
+    'Somos un centro de servicio especializado en la reparación de línea blanca, comprometido en ofrecer un servicio de calidad y confianza a cada cliente. Contamos con más de 20 años de experiencia en el mercado y un equipo de técnicos altamente capacitados, listos para diagnosticar y resolver cualquier falla con rapidez. Trabajamos con refacciones originales para garantizar resultados duraderos y evitar visitas repetidas. Ofrecemos asistencia técnica personalizada para las siguientes marcas:',
 } as const

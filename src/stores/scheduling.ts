@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { AgendaRequest } from '@/types'
+import { OTRA_FALLA_ID } from '@/data/fallas'
 
 const INITIAL: AgendaRequest = {
   nombre: '',
@@ -8,6 +9,8 @@ const INITIAL: AgendaRequest = {
   servicioId: '',
   zonaId: '',
   horarioId: '',
+  falla: '',
+  fallaDescripcion: '',
 }
 
 /**
@@ -31,7 +34,10 @@ export const useSchedulingStore = defineStore('scheduling', {
           state.form.marcaId &&
           state.form.servicioId &&
           state.form.zonaId &&
-          state.form.horarioId,
+          state.form.horarioId &&
+          state.form.falla &&
+          // Si elige "Otra", exige la descripción de texto libre.
+          (state.form.falla !== OTRA_FALLA_ID || Boolean(state.form.fallaDescripcion.trim())),
       ),
   },
   actions: {
