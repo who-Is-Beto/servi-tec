@@ -6,6 +6,7 @@ import IconFridge from '@tabler/icons-vue/dist/esm/icons/IconFridge.mjs'
 import IconCooker from '@tabler/icons-vue/dist/esm/icons/IconCooker.mjs'
 import IconGlassFull from '@tabler/icons-vue/dist/esm/icons/IconGlassFull.mjs'
 import IconMicrowave from '@tabler/icons-vue/dist/esm/icons/IconMicrowave.mjs'
+import IconStack2Filled from '@tabler/icons-vue/dist/esm/icons/IconStack2Filled.mjs'
 import type { ServicioIcono } from '@/types'
 import { SERVICIOS } from '@/data/servicios'
 import UiSection from '@/components/ui/UiSection.vue'
@@ -18,6 +19,7 @@ const iconos: Record<ServicioIcono, Component> = {
   estufa: markRaw(IconCooker),
   lavavajillas: markRaw(IconGlassFull),
   microondas: markRaw(IconMicrowave),
+  lavasecadora: markRaw(IconStack2Filled),
 }
 
 /**
@@ -30,8 +32,14 @@ const iconos: Record<ServicioIcono, Component> = {
  */
 const gridCols = (i: number): string => {
   if (i <= 1) return 'lg:col-span-2'
+  // Con un número impar de tarjetas, la última cierra el bento a lo ancho.
+  if (SERVICIOS.length % 2 === 1 && i === SERVICIOS.length - 1) return 'lg:col-span-4'
   return 'lg:col-span-1'
 }
+
+/** La tarjeta ancha usa un layout horizontal en sm+, no el vertical de columna. */
+const esAncho = (i: number): boolean =>
+  SERVICIOS.length % 2 === 1 && i === SERVICIOS.length - 1
 
 const tiltEnabled = ref(false)
 onMounted(() => {
@@ -67,7 +75,7 @@ function onLeave(e: MouseEvent): void {
   <UiSection id="servicios" class="bg-paper-mute dark:bg-ink-950">
     <SectionHeading
       title="Reparación de línea blanca de todos los equipos"
-      intro="Revisión en sitio de $200 acreditable a tu cotización y garantía de 90 días en el trabajo realizado. Atendemos las fallas más comunes de cada equipo."
+      intro="Revisión y cotización a domicilio el mismo día, con garantía de 90 días en el trabajo realizado. Atendemos las fallas más comunes de cada equipo."
     />
 
     <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -83,6 +91,7 @@ function onLeave(e: MouseEvent): void {
         <div
           :class="[
             'relative flex h-full flex-col overflow-hidden rounded-2xl p-6 ring-1 transition-shadow duration-300 dark:ring-ink-800',
+            esAncho(i) ? 'sm:flex-row sm:items-center sm:gap-6' : '',
             i === 0
               ? 'bg-white shadow-card ring-ink-200/60 hover:shadow-card-hover dark:bg-ink-900'
               : i === 1
@@ -116,7 +125,7 @@ function onLeave(e: MouseEvent): void {
             <component :is="iconos[servicio.icono]" class="size-6" />
           </span>
 
-          <div class="relative mt-5">
+          <div class="relative mt-5" :class="esAncho(i) ? 'sm:mt-0 sm:flex-1' : ''">
             <h3
               class="text-lg font-bold tracking-tight"
               :class="i === 1 ? 'text-white' : 'text-ink-950 dark:text-white'"

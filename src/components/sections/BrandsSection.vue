@@ -4,14 +4,12 @@ import { LEGAL } from '@/data/config'
 import UiSection from '@/components/ui/UiSection.vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import BrandLogo from '@/components/ui/BrandLogo.vue'
-
-const marcaPrincipal = MARCAS[0]?.nombre ?? 'las principales marcas'
 </script>
 
 <template>
-  <UiSection id="marcas" class="bg-paper-mute !pb-4 sm:!pb-8 lg:!pb-10 dark:bg-ink-950">
+  <UiSection id="marcas" class="bg-paper-mute dark:bg-ink-950">
     <SectionHeading
-      :title="`Servicio especializado en ${marcaPrincipal} y más`"
+      title="Servicio especializado en Samsung, LG, Daewoo y Winnia"
       intro="¿Quiénes somos?"
     />
 
@@ -71,8 +69,17 @@ const marcaPrincipal = MARCAS[0]?.nombre ?? 'las principales marcas'
       <li v-for="m in MARCAS" :key="m.id">{{ m.nombre }}</li>
     </ul>
 
-    <p class="mt-10 max-w-3xl text-xs leading-relaxed text-ink-600 dark:text-ink-400">
-      {{ LEGAL.declaracionIndependencia }}
+    <!--
+    Confirmado por el cliente: el listado de "marcas atendidas" para reparación
+    incluye Daewoo y Winnia (solicitud del cliente), marcas que antes figuraban
+    SOLO como refacciones compatibles (ver también /src/data/marcas.ts).
+  -->
+    <p
+      v-reveal
+      class="mt-10 max-w-3xl text-xs leading-relaxed text-ink-600 dark:text-ink-400"
+      data-testid="refacciones-compatibles"
+    >
+      {{ LEGAL.refaccionesCompatibles }}
     </p>
   </UiSection>
 </template>

@@ -6,7 +6,10 @@ defineProps<{
 </script>
 
 <template>
-  <section :id="id" :class="['py-16 sm:py-24 lg:py-28', className]">
+  <!-- Padding vertical unificado: hereda del token spacing.section
+       (tailwind.config.ts). Todas las secciones que usan UiSection comparten
+       el mismo espaciado; no hardcodear py-* aquí ni en los componentes. -->
+  <section :id="id" :class="['py-section', className]">
     <div class="page-container">
       <slot />
     </div>

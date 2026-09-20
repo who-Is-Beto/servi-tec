@@ -14,8 +14,8 @@ const props = defineProps<{ marca: Marca }>()
 const PALETA: Record<string, { texto: string; device: string; device2?: string }> = {
   samsung: { texto: '#1428a0', device: '#1428a0' },
   lg: { texto: '#ffffff', device: '#a50034' },
-  mabe: { texto: '#007a45', device: '#007a45', device2: '#ffffff' },
-  whirlpool: { texto: '#0067b9', device: '#0067b9' },
+  daewoo: { texto: '#c8102e', device: '#c8102e' },
+  winnia: { texto: '#00519e', device: '#00519e', device2: '#ffffff' },
   'linea-general': { texto: 'currentColor', device: '#2563eb' },
 }
 
@@ -42,16 +42,16 @@ const c = PALETA[props.marca.id] ?? { texto: 'currentColor', device: '#2563eb' }
       <text x="150" y="31" text-anchor="end" font-size="22" font-weight="700" letter-spacing="4" :fill="'#a50034'">LG</text>
     </template>
 
-    <template v-else-if="marca.id === 'mabe'">
+    <template v-else-if="marca.id === 'daewoo'">
       <circle cx="24" cy="24" r="15" :fill="c.device" />
-      <text x="24" y="30" text-anchor="middle" font-size="17" font-weight="800" :fill="c.device2">m</text>
-      <text x="150" y="32" text-anchor="end" font-size="24" font-weight="800" letter-spacing="1" :fill="c.texto">mabe</text>
+      <text x="24" y="30" text-anchor="middle" font-size="15" font-weight="800" :fill="'#ffffff'">D</text>
+      <text x="150" y="32" text-anchor="end" font-size="20" font-weight="800" letter-spacing="1" :fill="c.texto">DAEWOO</text>
     </template>
 
-    <template v-else-if="marca.id === 'whirlpool'">
-      <circle cx="24" cy="24" r="16" :fill="c.device" />
-      <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="800" :fill="'#ffffff'">W</text>
-      <text x="150" y="32" text-anchor="end" font-size="17" font-weight="800" letter-spacing="1" :fill="c.texto">Whirlpool</text>
+    <template v-else-if="marca.id === 'winnia'">
+      <circle cx="24" cy="24" r="15" :fill="c.device" />
+      <text x="24" y="30" text-anchor="middle" font-size="16" font-weight="800" :fill="c.device2">W</text>
+      <text x="150" y="32" text-anchor="end" font-size="20" font-weight="800" letter-spacing="1" :fill="c.texto">Winnia</text>
     </template>
 
     <template v-else>

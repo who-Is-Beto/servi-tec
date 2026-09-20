@@ -11,7 +11,7 @@ usePageSeo({
 </script>
 
 <template>
-  <article class="py-16 sm:py-24">
+  <article class="py-section">
     <div class="page-container max-w-3xl">
       <h1 class="text-3xl font-bold leading-[1.05] tracking-tighter text-ink-950 text-balance sm:text-4xl dark:text-white">
         Términos y Condiciones
@@ -36,10 +36,10 @@ usePageSeo({
         <section>
           <h2 class="text-lg font-bold text-ink-950 dark:text-white">2. Revisión y cotización</h2>
           <p class="mt-3">
-            La revisión en sitio tiene un costo de $200 MXN. Si se acepta la reparación,
-            ese monto se acredita y solo se paga lo presupuestado. Si no se acepta, se
-            cubre únicamente el costo de la revisión. Si durante el trabajo se detectan
-            fallas adicionales, se informará antes de continuar.
+            La revisión y la cotización se realizan a domicilio el mismo día en que nos
+            contactas, sin cargo fijo previo. Si se acepta la reparación, el costo de la
+            revisión se acredita y solo se paga lo presupuestado. Si durante el trabajo se
+            detectan fallas adicionales, se informará antes de continuar.
           </p>
         </section>
 

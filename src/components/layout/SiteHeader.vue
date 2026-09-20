@@ -38,7 +38,7 @@ const navLinks = [
             <span class="block text-lg font-bold tracking-tight text-white">
               {{ SITE.nombre }}
             </span>
-            <span class="block text-[10px] font-medium uppercase tracking-widest text-ink-400">
+            <span class="block text-[10px] font-medium uppercase tracking-widest text-ink-300">
               Servicio Especializado en Línea Blanca
             </span>
           </span>

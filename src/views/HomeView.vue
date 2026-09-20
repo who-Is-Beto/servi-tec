@@ -16,7 +16,7 @@ import FaqSection from '@/components/sections/FaqSection.vue'
 usePageSeo({
   title: 'Reparación de Línea Blanca a Domicilio en CDMX',
   description:
-    'Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Revisión de $200 MXN y garantía de 90 días.',
+    'Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Servicio especializado en Samsung, LG, Daewoo y Winnia. Revisión y cotización a domicilio el mismo día.',
   path: '/',
 })
 
@@ -59,14 +59,14 @@ useJsonLd({
     {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
-      closes: '19:00',
+      opens: '08:00',
+      closes: '20:00',
     },
     {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: 'Saturday',
-      opens: '09:00',
-      closes: '19:00',
+      opens: '08:00',
+      closes: '20:00',
     },
   ],
 })
@@ -77,8 +77,8 @@ useJsonLd({
   <BrandsSection />
   <WhySection />
   <ServicesSection />
-  <CoverageSection />
   <SchedulingSection />
+  <CoverageSection />
   <MetodosPagoSection />
   <TestimonialsSection />
   <FaqSection />

@@ -1,6 +1,6 @@
-# TecServi Landing
+# Servicio Lavadoras Landing
 
-Landing de una sola página (Vue 3 + Vite + TypeScript + Tailwind v3) para TecServi.
+Landing de una sola página (Vue 3 + Vite + TypeScript + Tailwind v3) para Servicio Lavadoras.
 Sitio en `https://tecservi.mx`.
 
 ## ⚙️ Tracking de Ads (Google Ads + Meta Pixel) — DÓNDE PEGAR TUS IDs

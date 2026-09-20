@@ -14,8 +14,8 @@ const beneficios = [
     texto: 'Coordinamos una urgencia a domicilio el mismo día que nos contactas.',
   },
   {
-    titulo: 'Atención los 365 días las 24 hrs',
-    texto: 'Soporte y agendado disponible todos los días del año.',
+    titulo: 'Atención los 365 días del año',
+    texto: 'Servicio y agendado todos los días del año, de 8:00 am a 8:00 pm.',
   },
   {
     titulo: 'Garantía por escrito hasta por un año',
@@ -72,20 +72,20 @@ const beneficios = [
         />
         <figure class="overflow-hidden rounded-[2rem] shadow-panel ring-1 ring-ink-200/60 dark:ring-ink-800">
           <!--
-            Imagen adaptativa: en mobile/tablet la lavadora individual
-            (washer-machine, cuadrada y limpia); en desktop la lavadora +
-            secadora (washer-machine-dryer), que transmite mayor amplitud de
-            servicio. Fuente /public/img (optimizados PNG/WebP/AVIF).
+            Hero3 (retrato 736×1104, del cliente) ── la escena del técnico al
+            hogar. Se muestra en proporción natural (2:3) para no recortar la
+            foto; <picture> sirve WebP con fallback JPEG (public/img/hero3.*,
+            optimizados con cwebp/sips). Ya no se usan washer-machine/dryer.
           -->
           <picture>
-            <source media="(min-width: 1024px)" srcset="/img/washer-machine-dryer.png" />
+            <source srcset="/img/hero3.webp" type="image/webp" />
             <img
-              src="/img/washer-machine.png"
-              alt="Lavadora y secadora de línea blanca reparadas a domicilio por TecServi"
-              width="1200"
-              height="900"
+              src="/img/hero3.jpg"
+              alt="Técnico de Servicio Lavadoras reparando una lavadora a domicilio en la CDMX"
+              width="736"
+              height="1104"
               loading="lazy"
-              class="aspect-[4/3] w-full object-cover"
+              class="aspect-[2/3] w-full object-cover"
             />
           </picture>
         </figure>

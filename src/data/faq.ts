@@ -7,14 +7,14 @@ import type { FaqItem } from '@/types'
  */
 export const FAQ: FaqItem[] = [
   {
-    pregunta: '¿Cuánto cuesta la visita y la cotización?',
+    pregunta: '¿La revisión y la cotización tienen costo?',
     respuesta:
-      'La revisión tiene un costo de $200 MXN. Si aceptas la cotización, ese monto se acredita y solo pagas lo presupuestado; si no se acepta, solo se cubre el costo de la revisión.',
+      'Realizamos la revisión y la cotización a domicilio el mismo día en que nos contactas. Si aceptas la reparación, el costo de la revisión se acredita y solo pagas lo presupuestado.',
   },
   {
-    pregunta: '¿Reparan mi marca o tengo que ser cliente de Samsung, LG o Mabe?',
+    pregunta: '¿Reparan mi marca o tengo que ser cliente de Samsung, LG, Daewoo o Winnia?',
     respuesta:
-      'Atendemos Samsung, LG, Mabe y línea general (Whirlpool, Bosch, Electrolux y otras), sin necesidad de contrato ni membresía. Somos un servicio técnico independiente.',
+      'Atendemos Samsung, LG, Daewoo, Winnia y línea general, sin necesidad de contrato ni membresía.',
   },
   {
     pregunta: '¿Qué zonas cubren?',
@@ -39,6 +39,6 @@ export const FAQ: FaqItem[] = [
   {
     pregunta: '¿Atienden fines de semana o de emergencia?',
     respuesta:
-      'Sí. Trabajamos de lunes a sábado en horarios de 9:00 a 13:00, 13:00 a 16:00 y 16:00 a 19:00. Al registrar tu horario preferido te confirmamos la franja exacta.',
+      'Sí. Trabajamos de lunes a sábado en horarios de 8:00 a 12:00, 12:00 a 16:00 y 16:00 a 20:00. Al registrar tu horario preferido te confirmamos la franja exacta.',
   },
 ] as const

@@ -3,12 +3,15 @@ import HomeView from '@/views/HomeView.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  scrollBehavior(to, _from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
     if (to.hash) {
       return { el: to.hash, top: 96, behavior: 'smooth' }
     }
-    return { top: 0 }
+    // Cambios SOLO de query (p. ej. ?zona= al elegir zona en el mapa) NO deben
+    // resetear el scroll: el código hace su propio scrollIntoView al mapa.
+    if (to.path !== from.path) return { top: 0 }
+    return false
   },
   routes: [
     {
@@ -18,7 +21,7 @@ export const router = createRouter({
       meta: {
         title: 'Reparación de Línea Blanca a Domicilio en CDMX',
         description:
-          'Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Servicio especializado en Samsung, LG y Mabe.',
+          'Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Servicio especializado en Samsung, LG, Daewoo y Winnia.',
       },
     },
     {
@@ -38,7 +41,7 @@ export const router = createRouter({
       meta: {
         title: 'Aviso de Privacidad',
         description:
-          'Aviso de privacidad de TecServi: qué datos capturamos en el formulario de agendado y cómo los usamos, conforme a la legislación mexicana.',
+          'Aviso de privacidad de Servicio Lavadoras: qué datos capturamos en el formulario de agendado y cómo los usamos, conforme a la legislación mexicana.',
       },
     },
     /**

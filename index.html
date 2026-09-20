@@ -5,24 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#12151c" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!--
+      Hero LCP: una sola imagen por viewport. La principal usa SIEMPRE Hero1
+      (horizontal): el cliente pidió no repetir hero2 (la instantánea diagonal
+      usa hero2, que es lazy/decorativa y no se precarga). Archivos optimizados
+      en /public/img/hero{1,2,3}.{webp,jpg} (fuente: /src/assets/hero/Hero*.jpg).
+    -->
     <link
       rel="preload"
       as="image"
-      href="/img/hero-reparacion.avif"
-      type="image/avif"
+      href="/img/hero1.webp"
+      type="image/webp"
       fetchpriority="high"
     />
-    <!--
-      TODO(hero): cuando se agreguen /src/assets/hero/washer_machine.png y
-      washer_machine_dryer.png, sustituir este preload por DOS declaraciones
-      condicionales al viewport (media="(max-width: 1023px)" para la versión
-      vertical y media="(min-width: 1024px)" para la horizontal) y ajustar
-      fetchpriority="high" solo a la activa, para no penalizar el LCP.
-    -->
-    <title>TecServi | Reparación de Línea Blanca a Domicilio en CDMX</title>
+    <title>Servicio Lavadoras | Reparación de Línea Blanca a Domicilio en CDMX</title>
     <meta
       name="description"
-      content="Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Servicio especializado en Samsung, LG, Mabe y Whirlpool. Diagnóstico y cotización antes de reparar."
+      content="Reparación de lavadoras, refrigeradores, estufas y secadoras a domicilio en CDMX y zona metropolitana. Servicio especializado en Samsung, LG, Daewoo y Winnia. Revisión y cotización a domicilio el mismo día."
     />
     <script>
       // Aplica el tema del sistema antes del primer paint para evitar flash.
