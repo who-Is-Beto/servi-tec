@@ -29,10 +29,12 @@ test.describe('SEO', () => {
 
     const negocio = ldc.find((entry) => entry?.['@type'] === 'HomeAndConstructionBusiness')
     expect(negocio).toBeDefined()
-    expect(negocio.name).toContain('TecServi')
+    expect(negocio.name).toContain('Servicio Lavadoras')
     expect(negocio.areaServed).toBeInstanceOf(Array)
     expect(negocio.areaServed.length).toBeGreaterThanOrEqual(33) // 1 región + 32 zonas
     expect(negocio.openingHoursSpecification.length).toBe(2)
+    expect(negocio.openingHoursSpecification[0].opens).toBe('08:00')
+    expect(negocio.openingHoursSpecification[0].closes).toBe('20:00')
   })
 
   test('robots.txt y sitemap.xml accesibles', async ({ request }) => {

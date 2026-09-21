@@ -40,6 +40,7 @@ export type ServicioIcono =
   | 'estufa'
   | 'lavavajillas'
   | 'microondas'
+  | 'lavasecadora'
 
 export interface Servicio {
   id: string

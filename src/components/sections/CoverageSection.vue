@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import IconMapPin from '@tabler/icons-vue/dist/esm/icons/IconMapPin.mjs'
 import IconClock from '@tabler/icons-vue/dist/esm/icons/IconClock.mjs'
 import IconCalendarEvent from '@tabler/icons-vue/dist/esm/icons/IconCalendarEvent.mjs'
 import IconInfoCircle from '@tabler/icons-vue/dist/esm/icons/IconInfoCircle.mjs'
+import IconPhone from '@tabler/icons-vue/dist/esm/icons/IconPhone.mjs'
+import { SITE } from '@/data/config'
 import { ZONAS_CDMX, ZONAS_EDOMEX, zonaPorId } from '@/data/zonas'
 import { CDMX_MAPA, EDOMEX_MAPA, EDOMEX_CONTEXTO, MAPA_META } from '@/data/zonas-mapa'
 import { useSchedulingStore } from '@/stores/scheduling'
+import { useConversion } from '@/composables/useConversion'
+import UiSection from '@/components/ui/UiSection.vue'
+import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 /**
  * Mapa real de la ZMCM (geometría oficial INEGI/CONABIO 2022, simplificada;
@@ -19,6 +24,7 @@ import { useSchedulingStore } from '@/stores/scheduling'
 const route = useRoute()
 const router = useRouter()
 const store = useSchedulingStore()
+const { trackCall } = useConversion()
 
 const zonasCdmx = ZONAS_CDMX
 const zonasEdomex = ZONAS_EDOMEX
@@ -28,6 +34,37 @@ const zonaSeleccionada = computed(() => {
   const zona = typeof id === 'string' ? zonaPorId(id) : undefined
   return zona
 })
+
+/** Selector "Elige tu zona" (arriba del mapa). */
+const SIN_ZONA = '__no_encuentro__'
+const zonaSeleccion = ref('')
+const noEncontro = ref(false)
+const mapaRef = ref<HTMLElement | null>(null)
+
+function onZonaSelect(): void {
+  if (zonaSeleccion.value === SIN_ZONA) {
+    noEncontro.value = true
+    return
+  }
+  const id = zonaSeleccion.value
+  if (!id) return
+  noEncontro.value = false
+  seleccionarZona(id)
+  // Scroll suave hasta el mapa para mostrar la zona resaltada.
+  mapaRef.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+}
+
+// Sincroniza el select si la zona se eligió en el mapa (o vía URL).
+watch(
+  zonaSeleccionada,
+  (z) => {
+    if (z && zonaSeleccion.value !== z.id) {
+      zonaSeleccion.value = z.id
+      noEncontro.value = false
+    }
+  },
+  { immediate: true },
+)
 
 const infoDe = (geo: (typeof CDMX_MAPA)[number]) => {
   const z = zonaPorId(geo.id)
@@ -60,11 +97,89 @@ function fontSize(z: (typeof CDMX_MAPA)[number]): string {
       intro="Atendemos a domicilio en las 16 alcaldías de la CDMX y en los principales municipios del Estado de México. Toca o da clic a tu zona para ver el tiempo estimado de llegada."
     />
 
+    <!-- Selector de zona por lista -->
+    <div
+      v-reveal
+      class="mt-12 overflow-hidden rounded-3xl bg-white p-6 shadow-card ring-1 ring-ink-200/60 sm:p-8 dark:bg-ink-900 dark:ring-ink-800"
+    >
+      <div class="grid items-center gap-5 lg:grid-cols-[minmax(0,1fr)_auto]">
+        <div class="flex items-center gap-3">
+          <span
+            class="grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-cta"
+            aria-hidden="true"
+          >
+            <IconMapPin class="size-5" />
+          </span>
+          <div>
+            <label for="zona-selector" class="block text-base font-bold text-ink-950 dark:text-white">
+              Elige tu zona
+            </label>
+            <p class="mt-0.5 text-sm text-ink-600 dark:text-ink-300">
+              Selecciona tu alcaldía o municipio y lo resaltamos en el mapa. Si no aparece, llámanos y confirmamos tu cobertura.
+            </p>
+          </div>
+        </div>
+        <select
+          id="zona-selector"
+          v-model="zonaSeleccion"
+          aria-label="Elige tu zona"
+          class="w-full appearance-none rounded-full border-0 bg-white px-5 py-3.5 pr-11 text-ink-900 shadow-sm ring-1 ring-inset ring-ink-200 transition-shadow hover:ring-ink-300 focus:ring-2 focus:ring-brand-500 lg:w-80 dark:bg-ink-950 dark:text-ink-50 dark:ring-ink-700 dark:hover:ring-ink-600"
+          data-testid="zona-select"
+          @change="onZonaSelect"
+        >
+          <option value="" disabled>Elige tu alcaldía o municipio…</option>
+          <optgroup label="Ciudad de México">
+            <option v-for="z in zonasCdmx" :key="z.id" :value="z.id">{{ z.nombre }}</option>
+          </optgroup>
+          <optgroup label="Estado de México">
+            <option v-for="z in zonasEdomex" :key="z.id" :value="z.id">{{ z.nombre }}</option>
+          </optgroup>
+          <option :value="SIN_ZONA">No encuentro mi zona</option>
+        </select>
+      </div>
+
+      <p
+        v-if="zonaSeleccionada && !noEncontro"
+        class="mt-5 text-sm text-ink-600 dark:text-ink-300"
+        aria-live="polite"
+        data-testid="zona-confirm"
+      >
+        <span class="font-semibold text-brand-700 dark:text-brand-300">
+          ¡Sí cubrimos {{ zonaSeleccionada.nombre }}!
+        </span>
+        Ya lo resaltamos en el mapa y de ahí puedes agendar tu cita.
+      </p>
+
+      <div
+        v-if="noEncontro"
+        class="mt-5 rounded-2xl bg-brand-50 p-5 ring-1 ring-inset ring-brand-200 dark:bg-ink-950 dark:ring-brand-800"
+        role="status"
+        aria-live="polite"
+        data-testid="zona-no-encuentro"
+      >
+        <p class="text-sm font-semibold text-ink-900 dark:text-white">¿No encuentras tu zona?</p>
+        <p class="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
+          Llámanos directo y confirmamos tu cobertura al momento.
+        </p>
+        <a
+          :href="`tel:${SITE.telefono}`"
+          class="tnum mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-brand-500 to-brand-700 px-5 py-2.5 text-sm font-semibold text-white shadow-cta ring-1 ring-inset ring-white/10 transition-all duration-150 hover:from-brand-400 hover:to-brand-600 active:translate-y-px"
+          data-testid="llama-directo"
+          @click="trackCall()"
+        >
+          <IconPhone class="size-4" />
+          {{ SITE.telefonoDisplay }}
+        </a>
+      </div>
+    </div>
+
     <div class="mt-12 grid items-start gap-8 lg:grid-cols-[1.7fr_1fr]">
       <!-- Mapa real -->
       <div
+        ref="mapaRef"
         v-reveal="{ from: 'left' }"
         class="relative overflow-hidden rounded-3xl bg-white p-4 shadow-card ring-1 ring-ink-200/60 sm:p-6 dark:bg-ink-900 dark:ring-ink-800"
+        data-testid="mapa-zonas"
       >
         <svg
           :viewBox="MAPA_META.viewBox.join(' ')"

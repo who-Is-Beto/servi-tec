@@ -29,12 +29,12 @@ const beneficios = [
   },
   {
     icono: IconCalculator,
-    titulo: 'Revisión de $200 acreditable',
-    texto: 'Si aceptas la cotización, solo pagas lo presupuestado.',
+    titulo: 'Revisión y cotización el mismo día',
+    texto: 'Diagnóstico a domicilio el mismo día; si aceptas, solo pagas lo presupuestado.',
   },
   {
     icono: IconClock,
-    titulo: 'Horarios de 9:00 a 19:00',
+    titulo: 'Horarios de 8:00 am a 8:00 pm',
     texto: 'Elige la franja: mañana, tarde o vespertino.',
   },
   {
@@ -79,7 +79,7 @@ const beneficios = [
         </a>
 
         <p class="mt-3 text-xs text-ink-600 dark:text-ink-400">
-          Revisión de $200 MXN: si aceptas la cotización, solo pagas lo presupuestado.
+          Revisión y cotización a domicilio el mismo día. Si aceptas la reparación, solo pagas lo presupuestado.
         </p>
 
         <ul class="mt-6 space-y-3">

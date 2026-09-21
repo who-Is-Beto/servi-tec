@@ -1,0 +1,25 @@
+{
+  "project": "tablet",
+  "viewport": {
+    "width": 768,
+    "height": 1024
+  },
+  "lcpMs": 168,
+  "cls": 0,
+  "heroImages": [
+    {
+      "url": "/img/hero1.webp",
+      "bytes": 63818
+    },
+    {
+      "url": "/img/hero2.webp",
+      "bytes": 28128
+    },
+    {
+      "url": "/img/hero3.webp",
+      "bytes": 81364
+    }
+  ],
+  "totalHeroBytes": 173310,
+  "at": "2026-09-19T03:54:39.119Z"
+}

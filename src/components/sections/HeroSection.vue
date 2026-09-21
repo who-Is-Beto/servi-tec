@@ -41,7 +41,7 @@ const headlineParts = computed(() => {
 const stats = [
   { texto: 'Alcaldías de la CDMX', valor: ZONAS_CDMX.length, prefijo: '', sufijo: '' },
   { texto: 'Municipios de EDOMEX', valor: ZONAS_EDOMEX.length, prefijo: '', sufijo: '' },
-  { texto: 'Revisión acreditable', valor: CLAIMS.costoRevision.pesos, prefijo: '$', sufijo: '' },
+  { texto: 'Garantía por escrito', valor: 90, prefijo: '', sufijo: ' días' },
   { texto: 'Años de experiencia', valor: CLAIMS.experienciaAnios, prefijo: '+', sufijo: '' },
 ]
 
@@ -65,7 +65,7 @@ const { trackCall } = useConversion()
     <div aria-hidden="true" class="bg-grid-faint absolute inset-0 -z-10 opacity-70" />
 
     <div
-      class="page-container relative grid items-center gap-14 pb-16 pt-32 sm:pt-36 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:pb-20 lg:pt-44"
+      class="page-container relative grid items-center gap-14 pb-section pt-32 sm:pt-36 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:pt-44"
     >
       <!-- Copia de venta -->
       <div class="max-w-xl">
@@ -114,7 +114,7 @@ const { trackCall } = useConversion()
             class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-ink-100 backdrop-blur-sm"
           >
             <IconClock aria-hidden="true" class="size-4 text-brand-300" />
-            Lun–Sáb · 9:00 a 19:00
+            Lun–Sáb · 8:00 am a 8:00 pm
           </span>
         </div>
 
@@ -149,30 +149,23 @@ const { trackCall } = useConversion()
         <figure
           class="group relative overflow-hidden rounded-[2rem] shadow-panel ring-1 ring-white/10"
         >
-          <!--
-            Hero responsivo: en mobile/tablet se sirve la lavadora individual
-            (washer_machine, formato más vertical); en desktop la lavadora +
-            secadora (washer_machine_dryer, formato más horizontal).
-            Fuente: /src/assets/hero/*.png → optimizados (PNG/WebP/AVIF) en
-            /public/img/washer-machine* (mismas rutas de abajo, generados con
-            sharp). El <img> de abajo solo actúa como fallback para navegadores
-            sin soporte <picture>.
+<!--
+            Hero principal: SIEMPRE Hero1 (horizontal 3:2). El cliente pidió no
+            repetir hero2; hero2 queda solo en la instantánea diagonal (lazy).
+            Fuente: /src/assets/hero/Hero1.jpg → optimizado en
+            /public/img/hero1.* (WebP + JPEG). Aspect-ratio 3:2 fijo para no
+            recortar la foto y evitar CLS. El <img> es fallback sin <picture>.
           -->
           <picture>
-            <source media="(min-width: 1024px)" srcset="/img/washer-machine-dryer.avif" type="image/avif" />
-            <source media="(min-width: 1024px)" srcset="/img/washer-machine-dryer.webp" type="image/webp" />
-            <source media="(min-width: 1024px)" srcset="/img/washer-machine-dryer.png" />
-            <source srcset="/img/washer-machine.avif" type="image/avif" />
-            <source srcset="/img/washer-machine.webp" type="image/webp" />
-            <source srcset="/img/washer-machine.png" />
+            <source srcset="/img/hero1.webp" type="image/webp" />
             <img
-              src="/img/washer-machine.png"
-              alt="Lavadora Samsung reparada por técnico especializado en CDMX"
+              src="/img/hero1.jpg"
+              alt="Técnico de Servicio Lavadoras reparando una lavadora a domicilio en la CDMX"
               width="1200"
-              height="900"
+              height="800"
               loading="eager"
               fetchpriority="high"
-              class="aspect-[3/4] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025] sm:aspect-[4/3] lg:aspect-[4/3]"
+              class="aspect-[3/2] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
             />
           </picture>
           <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-ink-950/75 via-ink-950/10 to-transparent" />
@@ -185,7 +178,7 @@ const { trackCall } = useConversion()
           </figcaption>
         </figure>
 
-        <!-- Chip flotante: revisión acreditable -->
+        <!-- Chip flotante: revisión y cotización -->
         <div
           class="animate-floaty absolute -left-3 top-10 hidden items-center gap-3 rounded-2xl border border-white/10 bg-ink-900/80 p-3.5 shadow-panel backdrop-blur-xl sm:flex [animation-delay:0.6s]"
           aria-hidden="true"
@@ -194,8 +187,8 @@ const { trackCall } = useConversion()
             <IconCalculator class="size-5" />
           </span>
           <span>
-            <span class="block text-sm font-bold">${{ CLAIMS.costoRevision.pesos }} acreditable</span>
-            <span class="block text-xs text-ink-400">si aceptas el presupuesto</span>
+            <span class="block text-sm font-bold">Revisión y cotización</span>
+            <span class="block text-xs text-ink-400">a domicilio el mismo día</span>
           </span>
         </div>
 
@@ -219,10 +212,10 @@ const { trackCall } = useConversion()
           aria-hidden="true"
         >
           <img
-            src="/img/washer-machine.png"
+            src="/img/hero2.webp"
             alt=""
-            width="480"
-            height="360"
+            width="810"
+            height="632"
             loading="lazy"
             class="aspect-[4/3] w-full rounded-xl object-cover object-top"
           />

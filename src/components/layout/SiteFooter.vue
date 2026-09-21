@@ -2,7 +2,7 @@
 import IconPhone from '@tabler/icons-vue/dist/esm/icons/IconPhone.mjs'
 import IconClock from '@tabler/icons-vue/dist/esm/icons/IconClock.mjs'
 import IconMail from '@tabler/icons-vue/dist/esm/icons/IconMail.mjs'
-import { SITE, LEGAL } from '@/data/config'
+import { SITE } from '@/data/config'
 import { ZONAS_CDMX, ZONAS_EDOMEX } from '@/data/zonas'
 import { useConversion } from '@/composables/useConversion'
 
@@ -18,7 +18,7 @@ const zonasDestacadas = {
 <template>
   <footer class="border-t border-ink-200/60 bg-ink-950 text-ink-300 dark:border-ink-800">
     <div class="mx-auto h-px max-w-page bg-gradient-to-r from-transparent via-brand-500/70 to-transparent" aria-hidden="true" />
-    <div class="page-container py-14 sm:py-16">
+    <div class="page-container py-section">
       <div class="grid gap-10 lg:grid-cols-[1.4fr_1fr_1.4fr]">
         <!-- Marca + blurb legal -->
         <div>
@@ -26,9 +26,6 @@ const zonasDestacadas = {
           <p class="mt-3 max-w-md text-sm leading-relaxed">
             Servicio técnico especializado en reparación de línea blanca a domicilio en
             Ciudad de México y zona metropolitana.
-          </p>
-          <p class="mt-4 max-w-md text-xs leading-relaxed text-ink-400">
-            {{ LEGAL.declaracionIndependencia }}
           </p>
         </div>
 
@@ -49,7 +46,7 @@ const zonasDestacadas = {
             </li>
             <li class="inline-flex items-center gap-2.5">
               <IconClock aria-hidden="true" class="size-4 text-brand-400" />
-              Lunes a sábado, 9:00 a 19:00
+              Lunes a sábado, 8:00 am a 8:00 pm
             </li>
             <li>
               <a

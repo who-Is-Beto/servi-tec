@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 /**
- * Design tokens de TecServi (Taste Skill v2, modo preserve).
+ * Design tokens de Servicio Lavadoras (Taste Skill v2, modo preserve).
  *
  * Sistema de forma (documentado):
  *  - Controles interactivos (botones, inputs, select, chips): pill (rounded-full)
@@ -57,6 +57,21 @@ export default {
         'card-hover': '0 2px 6px rgba(18,21,28,0.06), 0 24px 48px -20px rgba(39,72,200,0.26)',
         cta: '0 12px 28px -14px rgba(28,54,161,0.55)',
         panel: '0 24px 56px -24px rgba(13,23,69,0.28)',
+      },
+      /**
+       * Padding unificado de TODAS las secciones.
+       *
+* Un solo token responde (clamp) en vertical para cada sección
+        * (≈5rem móvil, ≈5.4rem tableta, ≈8.3rem escritorio@1440) y un solo
+        * token horizontal para el contenedor .page-container (≈16px móvil,
+        * hasta 32px escritorio). Cambiar aquí ajusta todo el sitio: ningún
+        * componente debe hardcodear su propio padding de sección.
+        */
+      spacing: {
+        // Aire entre secciones: ~80px móvil, ~86px tableta, ~133px escritorio.
+        // Valores bajos hacen que las secciones "se peguen" al hacer scroll.
+        section: 'clamp(5rem, 7vw + 2rem, 10rem)',
+        'page-x': 'clamp(1rem, 2vw, 2rem)',
       },
       zIndex: {
         header: '40',

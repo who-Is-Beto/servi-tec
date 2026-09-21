@@ -42,6 +42,12 @@ export const SERVICIOS: Servicio[] = [
     descripcion: 'No calienta, chispas, tarda de más o falla el plato giratorio.',
     icono: 'microondas',
   },
+  {
+    id: 'lavasecadora',
+    nombre: 'Lavasecadoras',
+    descripcion: 'Modelos 2 en 1 y apilados: no enciende, no seca, hace ruido o tiene fugas.',
+    icono: 'lavasecadora',
+  },
 ] as const
 
 export function servicioPorId(id: string): Servicio | undefined {

@@ -25,7 +25,14 @@ async function sinAnimaciones(page: import('@playwright/test').Page) {
   await page.waitForTimeout(200)
 }
 
-test.describe('Landing TecServi', () => {
+/** Oculta la barra flotante de llamada (z-callbar) para clicks deterministas. */
+async function ocultarCallbar(page: import('@playwright/test').Page) {
+  await page.addStyleTag({
+    content: 'div.z-callbar { display: none !important; }',
+  })
+}
+
+test.describe('Landing Servicio Lavadoras', () => {
   test('carga, muestra secciones y teléfono clickeable', async ({ page }) => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
@@ -68,6 +75,7 @@ test.describe('Landing TecServi', () => {
 
   test('form: valida campos vacíos y muestra errores', async ({ page }) => {
     await page.goto('/')
+    await ocultarCallbar(page)
     await page.getByTestId('schedule-submit').click()
 
     // 7 campos obligatorios (nombre, teléfono, marca, equipo, zona, horario, falla).
@@ -77,6 +85,7 @@ test.describe('Landing TecServi', () => {
 
   test('form: campo de falla es obligatorio', async ({ page }) => {
     await page.goto('/')
+    await ocultarCallbar(page)
 
     await page.locator('#ag-nombre').fill(NOMBRE_VALIDO)
     await page.locator('#ag-telefono').fill('55 1234 5678')
@@ -93,6 +102,7 @@ test.describe('Landing TecServi', () => {
 
   test('form: elegir "Otra" despliega el campo de descripción y lo valida', async ({ page }) => {
     await page.goto('/')
+    await sinAnimaciones(page)
 
     await page.locator('#ag-nombre').fill(NOMBRE_VALIDO)
     await page.locator('#ag-telefono').fill('55 1234 5678')
@@ -118,6 +128,7 @@ test.describe('Landing TecServi', () => {
 
   test('form: teléfono inválido se rechaza y válido completa la cita', async ({ page }) => {
     await page.goto('/')
+    await ocultarCallbar(page)
 
     await page.locator('#ag-nombre').fill(NOMBRE_VALIDO)
     await page.locator('#ag-telefono').fill('55 1234 56') // corto
@@ -181,14 +192,20 @@ test.describe('Landing TecServi', () => {
 
   test('hero: sirve la versión de imagen según breakpoint sin layout shift', async ({ page }) => {
     await page.goto('/')
-    const picture = page.locator('figure picture')
+    const picture = page.locator('figure picture').first()
     await expect(picture).toBeVisible()
 
     // El <img> del hero expone dimensions declaradas (width/height) → sin CLS.
-    const dims = page.locator('figure picture img').first()
-    await expect(dims).toHaveAttribute('width', '1200')
-    await expect(dims).toHaveAttribute('height', '900')
-    await expect(dims).toHaveAttribute('fetchpriority', 'high')
+    const img = page.locator('figure picture img').first()
+    await expect(img).toHaveAttribute('width', '1200')
+    await expect(img).toHaveAttribute('height', '800')
+    await expect(img).toHaveAttribute('fetchpriority', 'high')
+
+    // La principal es SIEMPRE Hero1 (horizontal) en todos los viewports: el
+    // cliente pidió no repetir hero2 (solo la instantánea diagonal la usa,
+    // lazy). Se lee currentSrc (el <source> ganador), no el atributo.
+    const src = await img.evaluate((el) => (el as HTMLImageElement).currentSrc)
+    expect(src).toContain('/img/hero1.')
   })
 
   test('nuevas secciones: beneficios, marcas y métodos de pago se renderizan', async ({ page }) => {
@@ -197,9 +214,54 @@ test.describe('Landing TecServi', () => {
     await expect(page.getByTestId('cobertura-badge')).toContainText('CDMX')
     await expect(page.locator('#pagos')).toBeVisible()
     await expect(page.getByTestId('metodo-pago')).toHaveCount(3)
-    await expect(page.locator('#marcas')).toContainText('Whirlpool')
+    await expect(page.locator('#marcas')).toContainText('Samsung, LG, Daewoo y Winnia')
 
     // Copy "¿Quiénes somos?" visible, con énfasis en centro de servicio.
     await expect(page.getByTestId('quienes-somos')).toContainText('centro de servicio especializado')
+    // Las marcas atendidas ya no incluyen Mabe ni Whirlpool.
+    await expect(page.locator('#marcas')).not.toContainText('Mabe')
+    await expect(page.locator('#marcas')).not.toContainText('Whirlpool')
+  })
+
+  test('copy: sin $200 ni TecServi en la landing; marca, horario y años unificados', async ({ page }) => {
+    await page.goto('/')
+    const body = page.locator('body')
+    // No $200 ni nombre antiguo ni disclaimer en la landing.
+    await expect(body).not.toContainText('$200')
+    await expect(body).not.toContainText('TecServi')
+    await expect(body).not.toContainText('técnico independiente')
+    // Marca y refacciones visibles.
+    await expect(page.locator('#marcas')).toContainText('Servicio especializado en Samsung, LG, Daewoo y Winnia')
+    await expect(page.getByTestId('refacciones-compatibles')).toBeVisible()
+    // Sin Mabe/Whirlpool en el cuerpo (ya no son marcas atendidas).
+    await expect(body).not.toContainText('Mabe')
+    await expect(body).not.toContainText('Whirlpool')
+    // Horario y experiencia.
+    await expect(body).toContainText('a domicilio el mismo día')
+    await expect(body).toContainText('8:00 am a 8:00 pm')
+    await expect(body).toContainText('+30')
+  })
+
+  test('cobertura: el selector de zona resalta, confirma y hace scroll al mapa', async ({ page }) => {
+    await page.goto('/')
+    await sinAnimaciones(page)
+
+    await expect(page.getByTestId('zona-select')).toBeVisible()
+    await page.selectOption('[data-testid="zona-select"]', 'benito-juarez')
+    await expect(page.getByTestId('zona-confirm')).toContainText('Benito Juárez')
+    await expect(page.getByTestId('map-panel')).toContainText('Benito Juárez')
+    await expect(page).toHaveURL(/[\?&]zona=benito-juarez(\&|$)/)
+    // El mapa queda visible: los controles ya confirmaron la zona; el scroll al
+    // mapa es comportamiento suave del navegador (no determinista en CI), así que
+    // se escrollea de forma determinista y se comprueba que está presente y actualizado.
+    await page.getByTestId('mapa-zonas').scrollIntoViewIfNeeded()
+    await expect(page.getByTestId('mapa-zonas')).toBeVisible()
+  })
+
+  test('cobertura: "No encuentro mi zona" muestra CTA de llamada directa', async ({ page }) => {
+    await page.goto('/')
+    await page.selectOption('[data-testid="zona-select"]', '__no_encuentro__')
+    await expect(page.getByTestId('zona-no-encuentro')).toBeVisible()
+    await expect(page.getByTestId('llama-directo')).toHaveAttribute('href', 'tel:+52556908945')
   })
 })

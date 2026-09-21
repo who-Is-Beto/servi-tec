@@ -34,6 +34,24 @@ const ICONOS = {
         </span>
         <h3 class="mt-4 text-base font-bold text-ink-950 dark:text-white">{{ m.label }}</h3>
         <p class="mt-1.5 text-sm leading-relaxed text-ink-600 dark:text-ink-300">{{ m.detalle }}</p>
+
+        <!-- Logos de tarjeta: WebP con fallback PNG, centrados y sin amontonarse -->
+        <ul v-if="m.logos?.length" class="mt-5 flex flex-wrap items-center justify-center gap-2.5" aria-label="Tarjetas aceptadas">
+          <li v-for="l in m.logos" :key="l.alt" class="flex h-9 items-center rounded-lg bg-white px-2.5 shadow-sm ring-1 ring-inset ring-ink-200/70 dark:bg-ink-950 dark:ring-ink-700">
+            <picture>
+              <source :srcset="l.src" type="image/webp" />
+              <img
+                :src="l.fallback"
+                :alt="l.alt"
+                class="h-6 w-auto max-w-[5.5rem] object-contain"
+                width="96"
+                height="32"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          </li>
+        </ul>
       </div>
     </div>
   </UiSection>

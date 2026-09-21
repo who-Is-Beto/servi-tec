@@ -1,0 +1,21 @@
+{
+  "project": "mobile",
+  "viewport": {
+    "width": 390,
+    "height": 664
+  },
+  "lcpMs": 204,
+  "cls": 0,
+  "heroImages": [
+    {
+      "url": "/img/hero1.webp",
+      "bytes": 63818
+    },
+    {
+      "url": "/img/hero3.webp",
+      "bytes": 81364
+    }
+  ],
+  "totalHeroBytes": 145182,
+  "at": "2026-09-19T03:54:36.825Z"
+}

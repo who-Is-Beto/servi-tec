@@ -1,25 +1,23 @@
 /**
  * Configuración central del negocio.
- * TODO: Reemplazar los valores placeholder cuando el cliente confirme
- * marca definitiva, teléfono real y URL del sitio.
  */
 export const SITE = {
-  /** Nombre comercial. TODO: confirmar con el cliente. */
-  nombre: 'TecServi',
+  /** Nombre comercial (confirmado por el cliente: "Servicio Lavadoras"). */
+  nombre: 'Servicio Lavadoras',
   /** Nombre usado en schema.org y términos legales. */
-  nombreLegal: 'TecServi Reparaciones de Línea Blanca',
+  nombreLegal: 'Servicio Lavadoras Reparaciones de Línea Blanca',
   eslogan: 'Reparación de línea blanca a domicilio',
   /** Teléfono en formato tel: (solo dígitos, con lada 55). Producción. */
   telefono: '+52556908945',
   /** Teléfono como se muestra en pantalla. */
   telefonoDisplay: '55 6908 945',
-  /** Correo público. TODO: reemplazar. */
+  /** Correo público. TODO: confirmar dominio de correo definitivo con el cliente. */
   email: 'hola@tecservi.mx',
-  /** URL base. En producción debería ir en VITE_SITE_URL. */
+  /** URL base. TODO: confirmar dominio definitivo (aún apunta al de staging). */
   url: 'https://tecservi.mx',
   region: 'Zona Metropolitana del Valle de México',
   direccionCorta: 'Ciudad de México y Estado de México',
-  horario: 'Lunes a sábado, 9:00 a 19:00',
+  horario: 'Lunes a sábado, 8:00 am a 8:00 pm',
   /**
    * WhatsApp: número en formato internacional (solo dígitos) y mensaje
    * predefinido. Se sobreescribe con VITE_WHATSAPP_NUMBER si existe.
@@ -40,39 +38,41 @@ export const SITE_URL = (import.meta.env.VITE_SITE_URL ?? SITE.url).replace(/\/$
  * confirmarse con el cliente antes de campañas. No inventar garantías.
  */
 export const CLAIMS = {
-  /** "Revisión de $200 MXN; si se acepta la cotización, solo se paga lo presupuestado". */
-  costoRevision: {
-    pesos: 200,
-    /** Si se acepta la cotización, el costo de la revisión se acredita. */
-    acreditable: true,
-    copia: 'Revisión de $200 MXN: si aceptas la cotización, solo pagas lo presupuestado.',
-  },
+  /** "Revisión y cotización a domicilio el mismo día". Sin precio fijo. */
+  revisionCopia: 'Revisión y cotización a domicilio el mismo día',
   /** "Reparación el mismo día o en 24-48 h". */
   reparacionRapida: true,
-  /** "Técnicos especializados con más de 10 años de experiencia". */
-  experienciaAnios: 10,
+  /** "+30 años de experiencia" (confirmado por el cliente). */
+  experienciaAnios: 30,
   /** Copy del hero (editable; el headline puede venir vía ?utm_headline). */
   hero: {
     titulo: 'Reparación de línea blanca a domicilio',
     subtitulo:
-      'Revisión de $200 MXN acreditable al total de tu reparación. Especialistas en lavadoras, refrigeradores, estufas y secadoras.',
+      'Revisión y cotización a domicilio el mismo día. Servicio especializado en Samsung, LG, Daewoo y Winnia.',
     cobertura: 'Cobertura en 16 alcaldías y +16 municipios de la ZMCM',
   },
 } as const
 
 /**
- * RESTRICCIÓN LEGAL DE MARCA (importante):
- * Este negocio presta "servicio especializado" en Samsung, LG y Mabe.
- * NO está autorizado, avalado ni es distribuidor oficial de esas marcas a
- * menos que el cliente lo confirme por escrito. Por eso el copy usa siempre
- * "servicio especializado en [marca]" y NUNCA "autorizado", "avalado" u
- * "oficial". No usar los logos de las marcas (implica afiliación).
+ * COPY LEGAL Y DE MARCA:
+ * - "declaracionIndependencia" vive SOLO en /terminos-y-condiciones (no en la
+ *   landing, por decisión del cliente). No usarla en el cuerpo visible.
+ * - Nunca usar "autorizado", "avalado" u "oficial" para las marcas salvo
+ *   convenio formal por escrito.
  */
 export const LEGAL = {
-  independiente: true,
+  /** Aclaración de independencia (solo en Términos y Condiciones). */
   declaracionIndependencia:
-    'TecServi es un servicio técnico independiente. No es fabricante, distribuidor ni centro de servicio autorizado de Samsung, LG, Mabe, Whirlpool ni de cualquier otra marca.',
+    'Servicio Lavadoras es un servicio técnico independiente. No es fabricante, distribuidor ni centro de servicio autorizado de Samsung, LG, Daewoo, Winnia ni de cualquier otra marca.',
   /** Copy "¿Quiénes somos?" (sección de marcas). Énfasis en centro especializado. */
   quienesSomos:
-    'Somos un centro de servicio especializado en la reparación de línea blanca, comprometido en ofrecer un servicio de calidad y confianza a cada cliente. Contamos con más de 20 años de experiencia en el mercado y un equipo de técnicos altamente capacitados, listos para diagnosticar y resolver cualquier falla con rapidez. Trabajamos con refacciones originales para garantizar resultados duraderos y evitar visitas repetidas. Ofrecemos asistencia técnica personalizada para las siguientes marcas:',
+    'Somos un centro de servicio especializado en la reparación de línea blanca, comprometido en ofrecer un servicio de calidad y confianza a cada cliente. Contamos con más de 30 años de experiencia en el mercado y un equipo de técnicos altamente capacitados, listos para diagnosticar y resolver cualquier falla con rapidez. Trabajamos con refacciones originales para garantizar resultados duraderos y evitar visitas repetidas. Ofrecemos asistencia técnica personalizada para las siguientes marcas:',
+  /**
+   * Copy sobre REFACCIONES compatibles. Reemplaza al disclaimer que se
+   * eliminó de la landing. Se escribió SIN enumerar marcas para no repetir
+   * el listado de "marcas atendidas" (Samsung, LG, Daewoo, Winnia) y evitar
+   * redundancia en la página.
+   */
+  refaccionesCompatibles:
+    'Usamos refacciones originales y/o compatibles para entregar reparaciones duraderas, en las marcas que atendemos.',
 } as const

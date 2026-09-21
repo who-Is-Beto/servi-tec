@@ -5,13 +5,13 @@ import { SITE } from '@/data/config'
 usePageSeo({
   title: 'Aviso de Privacidad',
   description:
-    'Aviso de privacidad: qué datos personales captura TecServi en el formulario de agendado y cómo los usa. En cumplimiento con la ley de protección de datos mexicana.',
+    'Aviso de privacidad: qué datos personales captura Servicio Lavadoras en el formulario de agendado y cómo los usa. En cumplimiento con la ley de protección de datos mexicana.',
   path: '/aviso-de-privacidad',
 })
 </script>
 
 <template>
-  <article class="py-16 sm:py-24">
+  <article class="py-section">
     <div class="page-container max-w-3xl">
       <h1 class="text-3xl font-bold leading-[1.05] tracking-tighter text-ink-950 text-balance sm:text-4xl dark:text-white">
         Aviso de Privacidad
